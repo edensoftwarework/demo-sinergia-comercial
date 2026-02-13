@@ -16,69 +16,254 @@
                         <h1>SINERGIA COMERCIAL</h1>
                         <p class="tagline">Representación Comercial de Excelencia</p>
                     </div>
+                    <ul class="nav-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#marcas">Marcas</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                    <button id="btn-portal" class="btn-portal" onclick="goToPortal()" style="display: none;">Mi Portal</button>
                     <button class="btn-login" onclick="showLoginModal()">Iniciar Sesión</button>
                 </div>
             </nav>
         </header>
 
-        <section class="hero">
+        <section id="inicio" class="hero">
             <div class="container">
-                <h2>Conectando Marcas con Oportunidades</h2>
-                <p class="hero-subtitle">#Descripción del servicio de representación comercial</p>
+                <h2>Su Socio Comercial en el NOA</h2>
+                <p class="hero-subtitle">Acceda a las mejores marcas de alimentos y golosinas con servicio personalizado, gestión de pedidos eficiente y seguimiento de cobranzas. Más de 25 años conectando distribuidores, mayoristas y supermercados con productos de calidad.</p>
                 <div class="stats">
                     <div class="stat-item">
-                        <h3>8</h3>
-                        <p>Marcas Representadas</p>
+                        <h3>7</h3>
+                        <p>Marcas Líderes</p>
                     </div>
                     <div class="stat-item">
                         <h3>160+</h3>
                         <p>Clientes Activos</p>
                     </div>
                     <div class="stat-item">
-                        <h3>15+</h3>
+                        <h3>25+</h3>
                         <p>Años de Experiencia</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="services">
+        <div class="section-divider first-divider">
             <div class="container">
-                <h2>Nuestros Servicios</h2>
-                <div class="service-grid">
-                    <div class="service-card">
+                <div class="divider-content">
+                    <span class="divider-line"></span>
+                    <h2 class="divider-title">Servicios</h2>
+                    <span class="divider-line"></span>
+                </div>
+            </div>
+        </div>
+
+        <section id="servicios" class="services">
+            <div class="container">
+                
+                <!-- Servicio 1: Representación Comercial -->
+                <div class="service-row">
+                    <div class="service-image">
+                        <img src="imagenes/imagen-apreton-manos-gondola.png" alt="Representación Comercial">
+                    </div>
+                    <div class="service-content">
+                        <h3>Representación Comercial</h3>
+                        <p>Acceso directo a marcas líderes en alimentos y golosinas del NOA. Actuamos como nexo estratégico entre fabricantes y su negocio, garantizando los mejores productos y condiciones comerciales.</p>
+                        <ul class="service-features">
+                            <li>✓ Más de 25 años de experiencia en el NOA</li>
+                            <li>✓ 7 marcas líderes del sector</li>
+                            <li>✓ Cobertura en 6 provincias</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Servicio 2: Gestión de Pedidos -->
+                <div class="service-row reverse">
+                    <div class="service-image">
+                        <img src="imagenes/gestion-de-pedidos-ecommerce.jpg" alt="Gestión de Pedidos">
+                    </div>
+                    <div class="service-content">
                         <h3>Gestión de Pedidos</h3>
-                        <p>#Descripción del servicio de gestión de pedidos</p>
+                        <p>Sistema ágil y eficiente para procesar sus pedidos. Múltiples canales de comunicación (WhatsApp, email, portal web) para que solicite sus productos de forma rápida y cómoda.</p>
+                        <ul class="service-features">
+                            <li>✓ Portal web 24/7 para realizar pedidos</li>
+                            <li>✓ Seguimiento en tiempo real</li>
+                            <li>✓ Confirmación inmediata</li>
+                        </ul>
                     </div>
-                    <div class="service-card">
+                </div>
+
+                <!-- Servicio 3: Control de Cobranzas -->
+                <div class="service-row">
+                    <div class="service-image">
+                        <img src="imagenes/control-cobranzas-2.jpg" alt="Control de Cobranzas">
+                    </div>
+                    <div class="service-content">
                         <h3>Control de Cobranzas</h3>
-                        <p>#Descripción del servicio de control de cobranzas</p>
+                        <p>Gestión transparente de facturas y pagos. Seguimiento detallado de su cuenta corriente, recordatorios de vencimientos y coordinación de pagos para mantener su negocio al día.</p>
+                        <ul class="service-features">
+                            <li>✓ Estados de cuenta actualizados</li>
+                            <li>✓ Recordatorios de vencimientos</li>
+                            <li>✓ Facilidades de pago</li>
+                        </ul>
                     </div>
-                    <div class="service-card">
-                        <h3>Alertas Automáticas</h3>
-                        <p>#Descripción del sistema de alertas automáticas</p>
+                </div>
+
+                <!-- Servicio 4: Atención Personalizada -->
+                <div class="service-row reverse">
+                    <div class="service-image">
+                        <img src="imagenes/atencion-personalizada.jpg" alt="Atención Personalizada">
                     </div>
-                    <div class="service-card">
-                        <h3>Seguimiento Personalizado</h3>
-                        <p>#Descripción del seguimiento personalizado a clientes</p>
+                    <div class="service-content">
+                        <h3>Atención Personalizada</h3>
+                        <p>Servicio cercano y comprometido. Visitamos su negocio, conocemos sus necesidades y trabajamos junto a usted para optimizar sus compras y maximizar sus resultados.</p>
+                        <ul class="service-features">
+                            <li>✓ Visitas periódicas a su negocio</li>
+                            <li>✓ Asesoramiento comercial</li>
+                            <li>✓ Equipo de 3 colaboradores</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="brands">
+        <div class="section-divider">
             <div class="container">
-                <h2>Marcas Representadas</h2>
-                <p class="section-subtitle">#Lista de marcas con trayectoria</p>
-                <div class="brands-grid">
-                    <div class="brand-item">Marca 1</div>
-                    <div class="brand-item">Marca 2</div>
-                    <div class="brand-item">Marca 3</div>
-                    <div class="brand-item">Marca 4</div>
-                    <div class="brand-item">Marca 5</div>
-                    <div class="brand-item">Marca 6</div>
-                    <div class="brand-item">Marca 7</div>
-                    <div class="brand-item">Marca 8</div>
+                <div class="divider-content">
+                    <span class="divider-line"></span>
+                    <h2 class="divider-title">Marcas Representadas</h2>
+                    <span class="divider-line"></span>
+                </div>
+            </div>
+        </div>
+
+        <section id="marcas" class="brands">
+            <div class="container">
+                <div class="brands-showcase">
+                    <div class="brand-card">
+                        <div class="brand-header">
+                            <div class="brand-icon">🍬</div>
+                            <h3>Benevia</h3>
+                        </div>
+                        <p class="brand-description">Productos alimenticios de calidad premium</p>
+                        <div class="brand-badge">Golosinas</div>
+                    </div>
+                    
+                    <div class="brand-card">
+                        <div class="brand-header">
+                            <div class="brand-icon">🍫</div>
+                            <h3>Justo Rodero</h3>
+                        </div>
+                        <p class="brand-description">Tradicional calidad en golosinas y librería</p>
+                        <div class="brand-badge">Golosinas & Librería</div>
+                    </div>
+                    
+                    <div class="brand-card">
+                        <div class="brand-header">
+                            <div class="brand-icon">☕</div>
+                            <h3>Verizzia</h3>
+                        </div>
+                        <p class="brand-description">Yerba mate y productos regionales</p>
+                        <div class="brand-badge">Infusiones</div>
+                    </div>
+                    
+                    <div class="brand-card">
+                        <div class="brand-header">
+                            <div class="brand-icon">🍭</div>
+                            <h3>Fantoche</h3>
+                        </div>
+                        <p class="brand-description">Líder en golosinas y snacks</p>
+                        <div class="brand-badge">Golosinas</div>
+                    </div>
+                    
+                    <div class="brand-card">
+                        <div class="brand-header">
+                            <div class="brand-icon">🍬</div>
+                            <h3>Sweet</h3>
+                        </div>
+                        <p class="brand-description">Open Candy - Dulces de calidad</p>
+                        <div class="brand-badge">Golosinas</div>
+                    </div>
+                    
+                    <div class="brand-card">
+                        <div class="brand-header">
+                            <div class="brand-icon">🍞</div>
+                            <h3>Lipo</h3>
+                        </div>
+                        <p class="brand-description">Productos alimenticios reconocidos</p>
+                        <div class="brand-badge">Alimentos</div>
+                    </div>
+                    
+                    <div class="brand-card">
+                        <div class="brand-header">
+                            <div class="brand-icon">🌾</div>
+                            <h3>Cerealco</h3>
+                        </div>
+                        <p class="brand-description">Cereales y productos saludables</p>
+                        <div class="brand-badge">Cereales</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider">
+            <div class="container">
+                <div class="divider-content">
+                    <span class="divider-line"></span>
+                    <h2 class="divider-title">Contacto</h2>
+                    <span class="divider-line"></span>
+                </div>
+            </div>
+        </div>
+
+        <section id="contacto" class="contact">
+            <div class="container">
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>SINERGIA COMERCIAL</h3>
+                        <p class="contact-description">Únase a más de 160 distribuidores, mayoristas y supermercados que confían en nuestro servicio en el NOA.</p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon">📍</div>
+                                <div>
+                                    <h4>Cobertura Regional</h4>
+                                    <p>Santiago del Estero, Tucumán, Catamarca, La Rioja, Salta y Jujuy</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">📞</div>
+                                <div>
+                                    <h4>Canales de Atención</h4>
+                                    <p>WhatsApp • Email • Portal Web</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon">⏰</div>
+                                <div>
+                                    <h4>Horario de Atención</h4>
+                                    <p>Lunes a Viernes: 8:00 - 18:00 hs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-cta">
+                        <div class="cta-card">
+                            <h3>¿Ya es cliente?</h3>
+                            <p>Acceda a su portal para gestionar pedidos, consultar su cuenta corriente y más.</p>
+                            <button class="btn-primary" onclick="showLoginModal()">Acceder al Portal</button>
+                        </div>
+                        
+                        <div class="cta-card">
+                            <h3>¿Nuevo cliente?</h3>
+                            <p>Regístrese para comenzar a trabajar con las mejores marcas del NOA.</p>
+                            <button class="btn-secondary" onclick="showRegisterModal()">Registrarse</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -145,7 +330,20 @@
         <header class="dashboard-header">
             <div class="container">
                 <h1>Panel de Administración - Sinergia Comercial</h1>
-                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+                <div class="header-actions">
+                    <button class="btn-back-to-site" onclick="backToSite()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12h18M3 12l6-6m-6 6l6 6"/>
+                        </svg>
+                        Volver al Sitio
+                    </button>
+                    <button class="btn-logout" onclick="logout()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+                        </svg>
+                        Cerrar Sesión
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -214,7 +412,20 @@
         <header class="dashboard-header">
             <div class="container">
                 <h1>Portal de Cliente - Sinergia Comercial</h1>
-                <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+                <div class="header-actions">
+                    <button class="btn-back-to-site" onclick="backToSite()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12h18M3 12l6-6m-6 6l6 6"/>
+                        </svg>
+                        Volver al Sitio
+                    </button>
+                    <button class="btn-logout" onclick="logout()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+                        </svg>
+                        Cerrar Sesión
+                    </button>
+                </div>
             </div>
         </header>
 
@@ -232,14 +443,13 @@
                         <label for="pedido-marca">Seleccionar Marca</label>
                         <select id="pedido-marca" required>
                             <option value="">-- Seleccione una marca --</option>
-                            <option value="Marca 1">Marca 1</option>
-                            <option value="Marca 2">Marca 2</option>
-                            <option value="Marca 3">Marca 3</option>
-                            <option value="Marca 4">Marca 4</option>
-                            <option value="Marca 5">Marca 5</option>
-                            <option value="Marca 6">Marca 6</option>
-                            <option value="Marca 7">Marca 7</option>
-                            <option value="Marca 8">Marca 8</option>
+                            <option value="Benevia">Benevia</option>
+                            <option value="Justo Rodero">Justo Rodero</option>
+                            <option value="Verizzia">Verizzia</option>
+                            <option value="Fantoche">Fantoche</option>
+                            <option value="Sweet (Open Candy)">Sweet (Open Candy)</option>
+                            <option value="Lipo">Lipo</option>
+                            <option value="Cerealco">Cerealco</option>
                         </select>
                     </div>
                     <div class="form-group">

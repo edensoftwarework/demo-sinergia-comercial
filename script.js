@@ -271,6 +271,35 @@ function logout() {
     document.getElementById('admin-dashboard').style.display = 'none';
     document.getElementById('client-portal').style.display = 'none';
     document.getElementById('landing-page').style.display = 'block';
+    document.getElementById('btn-portal').style.display = 'none';
+    document.querySelector('.btn-login').style.display = 'block';
+}
+
+// Volver al sitio (sin cerrar sesión)
+function backToSite() {
+    document.getElementById('admin-dashboard').style.display = 'none';
+    document.getElementById('client-portal').style.display = 'none';
+    document.getElementById('landing-page').style.display = 'block';
+    
+    // Mostrar botón "Mi Portal" en navbar
+    document.getElementById('btn-portal').style.display = 'inline-block';
+    document.querySelector('.btn-login').style.display = 'none';
+    
+    // Scroll al inicio
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Ir al portal desde el sitio
+function goToPortal() {
+    if (!currentUser) return;
+    
+    document.getElementById('landing-page').style.display = 'none';
+    
+    if (currentUser.tipo === 'admin') {
+        showAdminDashboard();
+    } else {
+        showClientPortal();
+    }
 }
 
 // Dashboard Administrador
@@ -655,3 +684,65 @@ function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+// Navegación dinámica y efectos
+document.addEventListener('DOMContentLoaded', function() {
+    // Efecto sticky en navbar al hacer scroll
+    const navbar = document.querySelector('.navbar');
+    let lastScrollTop = 0;
+    
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 100) {
+            navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+        } else {
+            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+    
+    // Resaltar link activo en navegación
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    window.addEventListener('scroll', function() {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (pageYOffset >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+    
+    // Animación suave para elementos al entrar en viewport
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observar elementos animables
+    const animatedElements = document.querySelectorAll('.service-row, .brand-item, .cta-card');
+    animatedElements.forEach(el => observer.observe(el));
+});
