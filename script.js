@@ -331,6 +331,7 @@ function initializeDemoData() {
         const pedidos = [
             {
                 id: 1,
+                pedidoId: 'PED-1735123840123-A8K2M',
                 clienteId: 2,
                 clienteNombre: 'Juan Pérez',
                 marca: 'Fantoche',
@@ -339,10 +340,11 @@ function initializeDemoData() {
                 unidad: 'cajas',
                 observaciones: 'Descuento 5% por volumen',
                 fecha: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Pagado'
             },
             {
                 id: 2,
+                pedidoId: 'PED-1736234951234-B3L9N',
                 clienteId: 2,
                 clienteNombre: 'Juan Pérez',
                 marca: 'Sweet (Open Candy)',
@@ -351,10 +353,11 @@ function initializeDemoData() {
                 unidad: 'unidades',
                 observaciones: '',
                 fecha: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Pagado'
             },
             {
                 id: 3,
+                pedidoId: 'PED-1737345062345-C4M1P',
                 clienteId: 3,
                 clienteNombre: 'María González',
                 marca: 'Cerealko',
@@ -363,10 +366,11 @@ function initializeDemoData() {
                 unidad: 'cajas',
                 observaciones: 'Entrega urgente',
                 fecha: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Facturado'
             },
             {
                 id: 4,
+                pedidoId: 'PED-1738456173456-D5N2Q',
                 clienteId: 3,
                 clienteNombre: 'María González',
                 marca: 'Fantoche',
@@ -375,10 +379,11 @@ function initializeDemoData() {
                 unidad: 'unidades',
                 observaciones: '',
                 fecha: new Date(Date.now() - 75 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Pagado'
             },
             {
                 id: 5,
+                pedidoId: 'PED-1739567284567-E6P3R',
                 clienteId: 4,
                 clienteNombre: 'Carlos Rodríguez',
                 marca: 'Fantoche',
@@ -387,10 +392,11 @@ function initializeDemoData() {
                 unidad: 'cajas',
                 observaciones: 'Para fin de año',
                 fecha: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Pagado'
             },
             {
                 id: 6,
+                pedidoId: 'PED-1738890395678-F7Q4S',
                 clienteId: 8,
                 clienteNombre: 'Diego Morales',
                 marca: 'Benevia',
@@ -399,10 +405,11 @@ function initializeDemoData() {
                 unidad: 'paquetes',
                 observaciones: 'Enviar a sucursal principal',
                 fecha: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'En Proceso'
             },
             {
                 id: 7,
+                pedidoId: 'PED-1738901506789-G8R5T',
                 clienteId: 9,
                 clienteNombre: 'Sofía Ramírez',
                 marca: 'Lipo',
@@ -411,10 +418,11 @@ function initializeDemoData() {
                 unidad: 'bolsas',
                 observaciones: '',
                 fecha: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Pagado'
             },
             {
                 id: 8,
+                pedidoId: 'PED-1739012617890-H9S6U',
                 clienteId: 10,
                 clienteNombre: 'Fernando López',
                 marca: 'Verizzia',
@@ -423,10 +431,11 @@ function initializeDemoData() {
                 unidad: 'cajas',
                 observaciones: 'Cliente mayorista - precio especial',
                 fecha: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Pagado'
             },
             {
                 id: 9,
+                pedidoId: 'PED-1739123728901-I1T7V',
                 clienteId: 11,
                 clienteNombre: 'Patricia Díaz',
                 marca: 'Sweet (Open Candy)',
@@ -435,10 +444,11 @@ function initializeDemoData() {
                 unidad: 'displays',
                 observaciones: '',
                 fecha: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Facturado'
             },
             {
                 id: 10,
+                pedidoId: 'PED-1739234839012-J2U8W',
                 clienteId: 12,
                 clienteNombre: 'Ricardo Torres',
                 marca: 'Fantoche',
@@ -447,7 +457,7 @@ function initializeDemoData() {
                 unidad: 'cajas',
                 observaciones: 'Reposición de stock',
                 fecha: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
-                estado: 'enviado'
+                estado: 'Pendiente'
             }
         ];
 
@@ -833,7 +843,7 @@ function loadClientes() {
         return;
     }
 
-    let html = '<table><thead><tr><th>Nombre</th><th>Empresa</th><th>Email</th><th>Teléfono</th><th>Usuario</th><th>Fecha Registro</th></tr></thead><tbody>';
+    let html = '<table><thead><tr><th>Nombre</th><th>Empresa</th><th>Email</th><th>Teléfono</th><th>Usuario</th><th>Fecha Registro</th><th>Acciones</th></tr></thead><tbody>';
 
     clientes.forEach(cliente => {
         html += `
@@ -844,6 +854,7 @@ function loadClientes() {
                 <td>${cliente.telefono}</td>
                 <td>${cliente.username}</td>
                 <td>${formatDate(cliente.fechaRegistro)}</td>
+                <td><button class="btn-action" onclick="mostrarEditarCliente(${cliente.id})">Editar</button></td>
             </tr>
         `;
     });
@@ -907,6 +918,40 @@ function loadVencimientosForm() {
     select.innerHTML = html;
 }
 
+// Cargar pedidos del cliente seleccionado para vincular a factura
+function loadPedidosDelCliente() {
+    const clienteId = parseInt(document.getElementById('venc-cliente').value);
+    const container = document.getElementById('venc-pedidos-container');
+    
+    if (!clienteId) {
+        container.innerHTML = '<p style="color: #999; font-style: italic;">Selecciona primero un cliente</p>';
+        return;
+    }
+    
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedidosCliente = pedidos.filter(p => p.clienteId === clienteId && p.estado !== 'Pagado');
+    
+    let html = '';
+    
+    if (pedidosCliente.length === 0) {
+        html = '<label style="display: block; padding: 0.5rem; background: #f8f9fa; border-radius: 5px;"><input type="checkbox" name="pedido-vinculado" value="sin-pedido" style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>';
+    } else {
+        pedidosCliente.forEach(pedido => {
+            const estadoColor = pedido.estado === 'Pendiente' ? '#ffc107' : pedido.estado === 'En Proceso' ? '#667eea' : '#d4983d';
+            html += `
+                <label style="display: block; padding: 0.5rem; margin-bottom: 0.3rem; cursor: pointer; transition: background 0.2s;">
+                    <input type="checkbox" name="pedido-vinculado" value="${pedido.pedidoId}" style="margin-right: 0.5rem;">
+                    <strong>${pedido.pedidoId}</strong> - ${pedido.producto} 
+                    <span style="color: ${estadoColor}; font-size: 0.85em;">(${pedido.estado})</span>
+                </label>
+            `;
+        });
+        html += '<label style="display: block; padding: 0.5rem; margin-top: 0.5rem; background: #fff3cd; border-radius: 5px;"><input type="checkbox" name="pedido-vinculado" value="sin-pedido" style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>';
+    }
+    
+    container.innerHTML = html;
+}
+
 function handleCargarVencimiento(event) {
     event.preventDefault();
     
@@ -914,35 +959,60 @@ function handleCargarVencimiento(event) {
     const usuarios = JSON.parse(localStorage.getItem('sinergia_usuarios'));
     const cliente = usuarios.find(u => u.id === clienteId);
 
-    // Buscar pedidos "En Proceso" del cliente para vincular
-    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
-    const pedidoEnProceso = pedidos.find(p => p.clienteId === clienteId && p.estado === 'En Proceso');
+    // Obtener pedidos seleccionados
+    const checkboxes = document.querySelectorAll('input[name="pedido-vinculado"]:checked');
+    const pedidosSeleccionados = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (pedidosSeleccionados.length === 0) {
+        alert('Debes seleccionar al menos un pedido o marcar "Sin pedido (Excepción)"');
+        return;
+    }
 
     const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    
+    // Corregir problema de zona horaria en fecha de vencimiento
+    const fechaVencInput = document.getElementById('venc-fecha').value;
+    const [yearV, monthV, dayV] = fechaVencInput.split('-');
+    const fechaVencimiento = new Date(yearV, monthV - 1, dayV);
+    
     const nuevoVencimiento = {
         id: vencimientos.length + 1,
         clienteId: clienteId,
         clienteNombre: cliente.nombre,
         factura: document.getElementById('venc-factura').value,
         monto: parseFloat(document.getElementById('venc-monto').value),
-        fechaVencimiento: document.getElementById('venc-fecha').value,
+        fechaVencimiento: fechaVencimiento.toISOString(),
         estado: 'pendiente',
-        pedidoId: pedidoEnProceso ? pedidoEnProceso.pedidoId : null
+        pedidosVinculados: pedidosSeleccionados.filter(p => p !== 'sin-pedido'),
+        sinPedido: pedidosSeleccionados.includes('sin-pedido')
     };
 
     vencimientos.push(nuevoVencimiento);
     localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
 
-    // Si hay pedido vinculado, cambiar su estado a "Facturado"
-    if (pedidoEnProceso) {
-        pedidoEnProceso.estado = 'Facturado';
+    // Cambiar estado de pedidos vinculados a "Facturado"
+    let pedidosActualizados = 0;
+    nuevoVencimiento.pedidosVinculados.forEach(pedidoId => {
+        const pedido = pedidos.find(p => p.pedidoId === pedidoId);
+        if (pedido && pedido.estado !== 'Pagado') {
+            pedido.estado = 'Facturado';
+            pedidosActualizados++;
+        }
+    });
+    
+    if (pedidosActualizados > 0) {
         localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
-        alert('Vencimiento cargado y vinculado al pedido ' + pedidoEnProceso.pedidoId);
+    }
+
+    if (nuevoVencimiento.sinPedido) {
+        alert('Vencimiento cargado sin pedido asociado (excepción)');
     } else {
-        alert('Vencimiento cargado exitosamente');
+        alert(`Vencimiento cargado y vinculado a ${pedidosActualizados} pedido(s)`);
     }
     
     document.getElementById('vencimientos-form').reset();
+    document.getElementById('venc-pedidos-container').innerHTML = '<p style="color: #999; font-style: italic;">Selecciona primero un cliente</p>';
     loadVencimientosList();
 }
 
@@ -1009,30 +1079,135 @@ function closeFechaPagoModal() {
     document.getElementById('fecha-pago-form').reset();
 }
 
+// Funciones para editar datos de clientes
+function mostrarEditarCliente(clienteId) {
+    const usuarios = JSON.parse(localStorage.getItem('sinergia_usuarios'));
+    const cliente = usuarios.find(u => u.id === clienteId);
+    
+    if (cliente) {
+        document.getElementById('edit-cliente-id').value = cliente.id;
+        document.getElementById('edit-cliente-nombre').value = cliente.nombre;
+        document.getElementById('edit-cliente-empresa').value = cliente.empresa;
+        document.getElementById('edit-cliente-email').value = cliente.email;
+        document.getElementById('edit-cliente-telefono').value = cliente.telefono;
+        document.getElementById('editar-cliente-modal').style.display = 'flex';
+    }
+}
+
+function closeEditarClienteModal() {
+    document.getElementById('editar-cliente-modal').style.display = 'none';
+    document.getElementById('editar-cliente-form').reset();
+}
+
+function handleEditarCliente(event) {
+    event.preventDefault();
+    
+    const clienteId = parseInt(document.getElementById('edit-cliente-id').value);
+    const usuarios = JSON.parse(localStorage.getItem('sinergia_usuarios'));
+    const cliente = usuarios.find(u => u.id === clienteId);
+    
+    if (cliente) {
+        cliente.nombre = document.getElementById('edit-cliente-nombre').value;
+        cliente.empresa = document.getElementById('edit-cliente-empresa').value;
+        cliente.email = document.getElementById('edit-cliente-email').value;
+        cliente.telefono = document.getElementById('edit-cliente-telefono').value;
+        
+        localStorage.setItem('sinergia_usuarios', JSON.stringify(usuarios));
+        
+        // Actualizar también el nombre en pedidos y vencimientos
+        actualizarNombreClienteEnDatos(clienteId, cliente.nombre);
+        
+        closeEditarClienteModal();
+        loadClientes();
+        alert('Datos del cliente actualizados correctamente');
+    }
+}
+
+function actualizarNombreClienteEnDatos(clienteId, nuevoNombre) {
+    // Actualizar en pedidos
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    pedidos.forEach(p => {
+        if (p.clienteId === clienteId) {
+            p.clienteNombre = nuevoNombre;
+        }
+    });
+    localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+    
+    // Actualizar en vencimientos
+    const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
+    vencimientos.forEach(v => {
+        if (v.clienteId === clienteId) {
+            v.clienteNombre = nuevoNombre;
+        }
+    });
+    localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
+}
+
+
 // Función para procesar el marcado como pagada con fecha seleccionada
 function handleMarcarPagada(event) {
     event.preventDefault();
     
     const vencimientoId = parseInt(document.getElementById('venc-id-pago').value);
-    const fechaPago = document.getElementById('fecha-pago').value;
+    const fechaPagoInput = document.getElementById('fecha-pago').value;
+    
+    // Convertir la fecha sin problemas de zona horaria
+    const [year, month, day] = fechaPagoInput.split('-');
+    const fechaPago = new Date(year, month - 1, day);
     
     const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
     const venc = vencimientos.find(v => v.id === vencimientoId);
     
     if (venc) {
         venc.estado = 'pagada';
-        venc.fechaPago = fechaPago;
+        venc.fechaPago = fechaPago.toISOString();
         localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
         
-        // Actualizar estado del pedido vinculado a "Pagado"
-        if (venc.pedidoId) {
-            const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+        // Actualizar estado de los pedidos vinculados a "Pagado"
+        const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+        let pedidosActualizados = 0;
+        
+        // Si es una factura sin pedido (excepción), crear pedido de excepción
+        if (venc.sinPedido) {
+            const pedidoExcepcion = {
+                id: pedidos.length + 1,
+                pedidoId: 'PED-' + Date.now() + '-EXC' + Math.random().toString(36).substr(2, 2).toUpperCase(),
+                clienteId: venc.clienteId,
+                clienteNombre: venc.clienteNombre,
+                marca: 'Sin especificar',
+                producto: `Pedido excepción - Factura ${venc.factura}`,
+                cantidad: 1,
+                unidad: 'unidades',
+                observaciones: 'Pedido generado automáticamente por factura sin pedido asociado',
+                fecha: fechaPago.toISOString(),
+                estado: 'Pagado',
+                esExcepcion: true
+            };
+            pedidos.push(pedidoExcepcion);
+            venc.pedidosVinculados = [pedidoExcepcion.pedidoId];
+            venc.sinPedido = false; // Ya no es sin pedido porque ahora tiene uno vinculado
+        }
+        
+        // Soporte para vinculación antigua (pedidoId) y nueva (pedidosVinculados)
+        if (venc.pedidosVinculados && venc.pedidosVinculados.length > 0) {
+            venc.pedidosVinculados.forEach(pedidoId => {
+                const pedido = pedidos.find(p => p.pedidoId === pedidoId);
+                if (pedido) {
+                    pedido.estado = 'Pagado';
+                    pedidosActualizados++;
+                }
+            });
+        } else if (venc.pedidoId) {
+            // Compatibilidad con sistema antiguo
             const pedido = pedidos.find(p => p.pedidoId === venc.pedidoId);
             if (pedido) {
                 pedido.estado = 'Pagado';
-                localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+                pedidosActualizados++;
             }
         }
+        
+        localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+        localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
         
         closeFechaPagoModal();
         loadVencimientosList();
@@ -1075,11 +1250,50 @@ function mostrarFormularioEditarFactura(vencimientoId) {
     
     if (venc) {
         document.getElementById('edit-factura-id').value = venc.id;
+        document.getElementById('edit-factura-cliente-id').value = venc.clienteId;
         document.getElementById('edit-factura-numero').value = venc.factura;
         document.getElementById('edit-factura-monto').value = venc.monto;
-        document.getElementById('edit-factura-fecha').value = venc.fechaVencimiento.split('T')[0];
+        
+        // Convertir fecha para evitar problema de zona horaria
+        const fecha = new Date(venc.fechaVencimiento);
+        const year = fecha.getFullYear();
+        const month = String(fecha.getMonth() + 1).padStart(2, '0');
+        const day = String(fecha.getDate()).padStart(2, '0');
+        document.getElementById('edit-factura-fecha').value = `${year}-${month}-${day}`;
+        
+        // Cargar pedidos del cliente para editar vinculación
+        loadPedidosParaEditar(venc.clienteId, venc.pedidosVinculados || [], venc.sinPedido || false);
+        
         document.getElementById('edit-factura-modal').style.display = 'flex';
     }
+}
+
+function loadPedidosParaEditar(clienteId, pedidosVinculados, esSinPedido) {
+    const container = document.getElementById('edit-pedidos-container');
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedidosCliente = pedidos.filter(p => p.clienteId === clienteId && p.estado !== 'Pagado');
+    
+    let html = '';
+    
+    if (pedidosCliente.length === 0 && !esSinPedido) {
+        html = '<label style="display: block; padding: 0.5rem; background: #f8f9fa; border-radius: 5px;"><input type="checkbox" name="edit-pedido-vinculado" value="sin-pedido" checked style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>';
+    } else {
+        pedidosCliente.forEach(pedido => {
+            const isChecked = pedidosVinculados.includes(pedido.pedidoId) ? 'checked' : '';
+            const estadoColor = pedido.estado === 'Pendiente' ? '#ffc107' : pedido.estado === 'En Proceso' ? '#667eea' : '#d4983d';
+            html += `
+                <label style="display: block; padding: 0.5rem; margin-bottom: 0.3rem; cursor: pointer;">
+                    <input type="checkbox" name="edit-pedido-vinculado" value="${pedido.pedidoId}" ${isChecked} style="margin-right: 0.5rem;">
+                    <strong>${pedido.pedidoId}</strong> - ${pedido.producto} 
+                    <span style="color: ${estadoColor}; font-size: 0.85em;">(${pedido.estado})</span>
+                </label>
+            `;
+        });
+        const sinPedidoChecked = esSinPedido ? 'checked' : '';
+        html += `<label style="display: block; padding: 0.5rem; margin-top: 0.5rem; background: #fff3cd; border-radius: 5px;"><input type="checkbox" name="edit-pedido-vinculado" value="sin-pedido" ${sinPedidoChecked} style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>`;
+    }
+    
+    container.innerHTML = html;
 }
 
 function closeEditFacturaModal() {
@@ -1095,10 +1309,47 @@ function handleEditFactura(event) {
     const venc = vencimientos.find(v => v.id === vencId);
     
     if (venc) {
+        // Obtener pedidos seleccionados
+        const checkboxes = document.querySelectorAll('input[name="edit-pedido-vinculado"]:checked');
+        const pedidosSeleccionados = Array.from(checkboxes).map(cb => cb.value);
+        
+        // Guardar antiguos pedidos vinculados para actualizar estados
+        const antiguosPedidos = venc.pedidosVinculados || [];
+        
         venc.factura = document.getElementById('edit-factura-numero').value;
         venc.monto = parseFloat(document.getElementById('edit-factura-monto').value);
-        venc.fechaVencimiento = document.getElementById('edit-factura-fecha').value;
         
+        // Corregir fecha de vencimiento
+        const fechaInput = document.getElementById('edit-factura-fecha').value;
+        const [year, month, day] = fechaInput.split('-');
+        const fechaVencimiento = new Date(year, month - 1, day);
+        venc.fechaVencimiento = fechaVencimiento.toISOString();
+        
+        venc.pedidosVinculados = pedidosSeleccionados.filter(p => p !== 'sin-pedido');
+        venc.sinPedido = pedidosSeleccionados.includes('sin-pedido');
+        
+        // Actualizar estados de pedidos
+        const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+        
+        // Revertir pedidos que ya no están vinculados
+        antiguosPedidos.forEach(pedidoId => {
+            if (!venc.pedidosVinculados.includes(pedidoId)) {
+                const pedido = pedidos.find(p => p.pedidoId === pedidoId);
+                if (pedido && pedido.estado === 'Facturado') {
+                    pedido.estado = 'En Proceso';
+                }
+            }
+        });
+        
+        // Actualizar nuevos pedidos vinculados
+        venc.pedidosVinculados.forEach(pedidoId => {
+            const pedido = pedidos.find(p => p.pedidoId === pedidoId);
+            if (pedido && pedido.estado !== 'Pagado') {
+                pedido.estado = 'Facturado';
+            }
+        });
+        
+        localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
         localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
         
         closeEditFacturaModal();
@@ -1142,6 +1393,8 @@ function showClientSection(section) {
 
     if (section === 'mis-pedidos') {
         loadMisPedidos();
+    } else if (section === 'mis-datos') {
+        loadMisDatos();
     }
 }
 
@@ -1359,4 +1612,100 @@ function filterProducts(marca) {
     }
     
     container.innerHTML = productosHTML;
+}
+
+// Funciones para gestión de datos del cliente
+function loadMisDatos() {
+    const container = document.getElementById('datos-cliente-vista');
+    
+    let html = `
+        <div class="client-info">
+            <div class="info-row">
+                <span class="info-label">Nombre:</span>
+                <span class="info-value">${currentUser.nombre}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Empresa:</span>
+                <span class="info-value">${currentUser.empresa}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">${currentUser.email}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Teléfono:</span>
+                <span class="info-value">${currentUser.telefono}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Usuario:</span>
+                <span class="info-value">${currentUser.username}</span>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = html;
+}
+
+function mostrarEditarMisDatos() {
+    document.getElementById('auth-mis-datos-modal').style.display = 'flex';
+}
+
+function closeAuthMisDatosModal() {
+    document.getElementById('auth-mis-datos-modal').style.display = 'none';
+    document.getElementById('auth-mis-datos-form').reset();
+}
+
+function handleAuthMisDatos(event) {
+    event.preventDefault();
+    
+    const password = document.getElementById('auth-password-datos').value;
+    
+    if (password === currentUser.password) {
+        closeAuthMisDatosModal();
+        mostrarFormularioEditarMisDatos();
+    } else {
+        alert('Contraseña incorrecta');
+    }
+}
+
+function mostrarFormularioEditarMisDatos() {
+    document.getElementById('edit-mis-datos-nombre').value = currentUser.nombre;
+    document.getElementById('edit-mis-datos-empresa').value = currentUser.empresa;
+    document.getElementById('edit-mis-datos-email').value = currentUser.email;
+    document.getElementById('edit-mis-datos-telefono').value = currentUser.telefono;
+    document.getElementById('editar-mis-datos-modal').style.display = 'flex';
+}
+
+function closeEditarMisDatosModal() {
+    document.getElementById('editar-mis-datos-modal').style.display = 'none';
+    document.getElementById('editar-mis-datos-form').reset();
+}
+
+function handleEditarMisDatos(event) {
+    event.preventDefault();
+    
+    const usuarios = JSON.parse(localStorage.getItem('sinergia_usuarios'));
+    const usuario = usuarios.find(u => u.id === currentUser.id);
+    
+    if (usuario) {
+        usuario.nombre = document.getElementById('edit-mis-datos-nombre').value;
+        usuario.empresa = document.getElementById('edit-mis-datos-empresa').value;
+        usuario.email = document.getElementById('edit-mis-datos-email').value;
+        usuario.telefono = document.getElementById('edit-mis-datos-telefono').value;
+        
+        localStorage.setItem('sinergia_usuarios', JSON.stringify(usuarios));
+        
+        // Actualizar también en currentUser
+        currentUser.nombre = usuario.nombre;
+        currentUser.empresa = usuario.empresa;
+        currentUser.email = usuario.email;
+        currentUser.telefono = usuario.telefono;
+        
+        // Actualizar nombre en pedidos y vencimientos
+        actualizarNombreClienteEnDatos(currentUser.id, currentUser.nombre);
+        
+        closeEditarMisDatosModal();
+        loadMisDatos();
+        alert('Datos actualizados correctamente');
+    }
 }

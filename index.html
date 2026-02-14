@@ -20,7 +20,17 @@
                         <li><a href="#inicio">Inicio</a></li>
                         <li><a href="#servicios">Servicios</a></li>
                         <li><a href="#marcas">Marcas</a></li>
-                        <li><a href="#catalogo">Catálogo</a></li>
+                        <li class="dropdown">
+                            <a href="#catalogo" class="dropbtn">Catálogo</a>
+                            <div class="dropdown-content">
+                                <a href="catalogos/benevia/index.html" target="_blank">Benevia</a>
+                                <a href="catalogos/verizzia/index.html" target="_blank">Verizzia</a>
+                                <a href="catalogos/fantoche/index.html" target="_blank">Fantoche</a>
+                                <a href="catalogos/sweet/index.html" target="_blank">Sweet (Open Candy)</a>
+                                <a href="catalogos/lipo/index.html" target="_blank">Lipo</a>
+                                <a href="catalogos/cerealko/index.html" target="_blank">Cerealko</a>
+                            </div>
+                        </li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                     <button id="btn-portal" class="btn-portal" onclick="goToPortal()" style="display: none;">Mi Portal</button>
@@ -353,6 +363,8 @@
             <span class="close" onclick="closeEditFacturaModal()">&times;</span>
             <h2>Editar Factura</h2>
             <form id="edit-factura-form" onsubmit="handleEditFactura(event)">
+                <input type="hidden" id="edit-factura-id">
+                <input type="hidden" id="edit-factura-cliente-id">
                 <div class="form-group">
                     <label for="edit-factura-numero">Número de Factura</label>
                     <input type="text" id="edit-factura-numero" required>
@@ -365,7 +377,12 @@
                     <label for="edit-factura-fecha">Fecha de Vencimiento</label>
                     <input type="date" id="edit-factura-fecha" required>
                 </div>
-                <input type="hidden" id="edit-factura-id">
+                <div class="form-group">
+                    <label>Pedidos Vinculados</label>
+                    <div id="edit-pedidos-container" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 0.5rem;">
+                        <p style="color: #999; font-style: italic;">Cargando pedidos...</p>
+                    </div>
+                </div>
                 <div class="modal-buttons">
                     <button type="submit" class="btn-primary">Guardar Cambios</button>
                     <button type="button" class="btn-secondary" onclick="closeEditFacturaModal()">Cancelar</button>
@@ -389,6 +406,37 @@
                 <div class="modal-buttons">
                     <button type="submit" class="btn-primary">Confirmar Pago</button>
                     <button type="button" class="btn-secondary" onclick="closeFechaPagoModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Cliente -->
+    <div id="editar-cliente-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditarClienteModal()">&times;</span>
+            <h2>Editar Datos del Cliente</h2>
+            <form id="editar-cliente-form" onsubmit="handleEditarCliente(event)">
+                <input type="hidden" id="edit-cliente-id">
+                <div class="form-group">
+                    <label for="edit-cliente-nombre">Nombre Completo</label>
+                    <input type="text" id="edit-cliente-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-cliente-empresa">Empresa</label>
+                    <input type="text" id="edit-cliente-empresa" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-cliente-email">Email</label>
+                    <input type="email" id="edit-cliente-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-cliente-telefono">Teléfono</label>
+                    <input type="tel" id="edit-cliente-telefono" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditarClienteModal()">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -455,7 +503,13 @@
                 <form id="vencimientos-form" onsubmit="handleCargarVencimiento(event)">
                     <div class="form-group">
                         <label for="venc-cliente">Cliente</label>
-                        <select id="venc-cliente" required></select>
+                        <select id="venc-cliente" required onchange="loadPedidosDelCliente()"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="venc-pedidos">Vincular a Pedido(s)</label>
+                        <div id="venc-pedidos-container" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 0.5rem;">
+                            <p style="color: #999; font-style: italic;">Selecciona primero un cliente</p>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="venc-factura">Número de Factura</label>
@@ -502,6 +556,7 @@
             <nav class="dashboard-nav">
                 <button class="nav-btn active" onclick="showClientSection('nuevo-pedido')">Nuevo Pedido</button>
                 <button class="nav-btn" onclick="showClientSection('mis-pedidos')">Mis Pedidos</button>
+                <button class="nav-btn" onclick="showClientSection('mis-datos')">Mis Datos</button>
             </nav>
 
             <!-- Sección Nuevo Pedido -->
@@ -557,6 +612,64 @@
                 <h2>Mis Pedidos</h2>
                 <div id="mis-pedidos-container"></div>
             </div>
+
+            <!-- Sección Mis Datos -->
+            <div id="client-mis-datos" class="dashboard-section" style="display: none;">
+                <h2>Mis Datos</h2>
+                <div class="info-card">
+                    <div id="datos-cliente-vista"></div>
+                    <button class="btn-primary" onclick="mostrarEditarMisDatos()">Editar Mis Datos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Autenticación para Editar Mis Datos -->
+    <div id="auth-mis-datos-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeAuthMisDatosModal()">&times;</span>
+            <h2>Confirmar Identidad</h2>
+            <p>Por seguridad, ingresa tu contraseña para editar tus datos:</p>
+            <form id="auth-mis-datos-form" onsubmit="handleAuthMisDatos(event)">
+                <div class="form-group">
+                    <label for="auth-password-datos">Contraseña</label>
+                    <input type="password" id="auth-password-datos" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Confirmar</button>
+                    <button type="button" class="btn-secondary" onclick="closeAuthMisDatosModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Mis Datos -->
+    <div id="editar-mis-datos-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditarMisDatosModal()">&times;</span>
+            <h2>Editar Mis Datos</h2>
+            <form id="editar-mis-datos-form" onsubmit="handleEditarMisDatos(event)">
+                <div class="form-group">
+                    <label for="edit-mis-datos-nombre">Nombre Completo</label>
+                    <input type="text" id="edit-mis-datos-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-mis-datos-empresa">Empresa</label>
+                    <input type="text" id="edit-mis-datos-empresa" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-mis-datos-email">Email</label>
+                    <input type="email" id="edit-mis-datos-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-mis-datos-telefono">Teléfono</label>
+                    <input type="tel" id="edit-mis-datos-telefono" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditarMisDatosModal()">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 

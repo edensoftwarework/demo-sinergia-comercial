@@ -574,10 +574,11 @@ table tr:hover {
 }
 
 .status-badge {
-    padding: 0.3rem 0.8rem;
+    padding: 0.3rem 0.7rem;
     border-radius: 15px;
-    font-size: 0.85rem;
+    font-size: 0.72rem;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .status-pendiente {
@@ -769,6 +770,91 @@ html {
 .nav-links li a:hover::after {
     width: 100%;
 }
+
+/* Menú Desplegable de Catálogos */
+.dropdown {
+    position: relative;
+}
+
+.dropdown .dropbtn {
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 220px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    z-index: 9999;
+    margin-top: 5px;
+    padding: 0.5rem 0;
+}
+
+.dropdown-content a {
+    color: #333 !important;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    display: block;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.dropdown-content a:after {
+    display: none !important;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f9fa;
+    border-left-color: #d4983d;
+    color: #d4983d !important;
+}
+
+.dropdown .dropdown-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    display: block;
+}
+
+/* Mantener el dropdown abierto cuando el cursor está sobre él */
+.dropdown-content:hover {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Área invisible entre el botón y el dropdown para facilitar navegación */
+.dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: transparent;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 /* Servicios con Imágenes */
 .service-row {
@@ -1281,4 +1367,54 @@ html {
 
 .btn-logout:hover svg {
     transform: translateX(3px);
+}
+
+/* Estilos para información del cliente */
+.info-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.client-info {
+    margin-bottom: 1.5rem;
+}
+
+.info-row {
+    display: flex;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #555;
+    width: 150px;
+    flex-shrink: 0;
+}
+
+.info-value {
+    color: #333;
+    flex: 1;
+}
+
+/* Estilos para checkboxes de vinculación de pedidos */
+#venc-pedidos-container label {
+    transition: background 0.2s ease;
+}
+
+#venc-pedidos-container label:hover {
+    background: #f8f9fa !important;
+}
+
+#venc-pedidos-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #667eea;
 }
