@@ -1912,6 +1912,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
     
+    // Manejar clics en enlaces de navegación para ajustar scroll con navbar fija
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                // Calcular la posición correcta: navbar height + espacio para mostrar separador
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const separatorOffset = 120; // Espacio adicional aumentado para mostrar más de la sección
+                const targetPosition = targetSection.offsetTop - navbarHeight - separatorOffset;
+                
+                // Scroll suave con animación personalizada más profesional
+                smoothScrollTo(targetPosition, 1200); // 1200ms de duración para scroll más suave
+            }
+        });
+    });
+    
     window.addEventListener('scroll', function() {
         let current = '';
         
@@ -1919,7 +1938,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
             
-            if (pageYOffset >= sectionTop - 100) {
+            if (pageYOffset >= sectionTop - 150) { // Ajustado para navbar fija
                 current = section.getAttribute('id');
             }
         });
@@ -2389,29 +2408,86 @@ function handleEditarPedidoAdmin(event) {
     }
 }
 
-// Función para cancelar un pedido
-function cancelarPedido(origen) {
-    const pedidoId = origen === 'cliente' 
-        ? parseInt(document.getElementById('edit-pedido-cliente-id').value)
-        : parseInt(document.getElementById('edit-pedido-admin-id').value);
+// Función de scroll suave profesional con easing
+function smoothScrollTo(targetPosition, duration = 800) {
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const startTime = performance.now();
     
-    if (confirm('¿Está seguro de que desea CANCELAR este pedido? Esta acción no se puede deshacer.')) {
-        const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
-        const pedido = pedidos.find(p => p.id === pedidoId);
+    // Función de easing (easeInOutCubic) para animación más suave
+    function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+    
+    function animation(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeInOutCubic(progress);
         
-        if (pedido) {
-            pedido.estado = 'Cancelado';
-            localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
-            
-            if (origen === 'cliente') {
-                closeEditarPedidoClienteModal();
-                loadMisPedidos();
-            } else {
-                closeEditarPedidoAdminModal();
-                loadPedidosAdmin();
-            }
-            
-            alert('Pedido cancelado exitosamente');
+        window.scrollTo(0, startPosition + distance * easedProgress);
+        
+        if (progress < 1) {
+            requestAnimationFrame(animation);
         }
     }
+    
+    requestAnimationFrame(animation);
 }
+
+// Modal de Contraseña
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordModal = document.getElementById('password-modal');
+    const passwordInput = document.getElementById('password-input');
+    const passwordSubmit = document.getElementById('password-submit');
+    const passwordError = document.getElementById('password-error');
+    
+    // Contraseña correcta (puedes cambiarla aquí)
+    const CORRECT_PASSWORD = 'admin123';
+    
+    // Verificar si ya se ha accedido
+    if (localStorage.getItem('sinergia_demo_access') === 'granted') {
+        passwordModal.style.display = 'none';
+        return;
+    }
+    
+    // Mostrar modal
+    passwordModal.style.display = 'flex';
+    
+    // Función para validar contraseña
+    function validatePassword() {
+        const enteredPassword = passwordInput.value.trim();
+        
+        if (enteredPassword === CORRECT_PASSWORD) {
+            // Contraseña correcta
+            localStorage.setItem('sinergia_demo_access', 'granted');
+            passwordModal.style.display = 'none';
+            passwordError.style.display = 'none';
+            passwordInput.value = '';
+        } else {
+            // Contraseña incorrecta
+            passwordError.style.display = 'block';
+            passwordInput.value = '';
+            passwordInput.focus();
+            
+            // Animación de error
+            passwordInput.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                passwordInput.style.animation = '';
+            }, 500);
+        }
+    }
+    
+    // Event listeners
+    passwordSubmit.addEventListener('click', validatePassword);
+    
+    passwordInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            validatePassword();
+        }
+    });
+    
+    // Enfocar input al cargar
+    setTimeout(() => {
+        passwordInput.focus();
+    }, 100);
+});

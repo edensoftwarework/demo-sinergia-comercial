@@ -7,6 +7,25 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Modal de Contraseña -->
+    <div id="password-modal" class="password-modal">
+        <div class="password-modal-content">
+            <div class="password-modal-header">
+                <h2>🔒 Acceso Restringido</h2>
+                <p>Este es un demo privado de Sinergia Comercial</p>
+            </div>
+            <div class="password-modal-body">
+                <div class="password-input-container">
+                    <input type="password" id="password-input" placeholder="Ingrese la contraseña" maxlength="20">
+                    <button id="password-submit" class="btn-password">Acceder</button>
+                </div>
+                <div id="password-error" class="password-error" style="display: none;">
+                    Contraseña incorrecta. Intente nuevamente.
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Landing Page -->
     <div id="landing-page">
         <header>
