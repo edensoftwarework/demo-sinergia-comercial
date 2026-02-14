@@ -339,8 +339,10 @@
                     <input type="password" id="auth-password" required>
                 </div>
                 <input type="hidden" id="edit-venc-id">
-                <button type="submit" class="btn-primary">Verificar y Editar</button>
-                <button type="button" class="btn-secondary" onclick="closeAuthEditModal()">Cancelar</button>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Verificar y Editar</button>
+                    <button type="button" class="btn-secondary" onclick="closeAuthEditModal()">Cancelar</button>
+                </div>
             </form>
         </div>
     </div>
@@ -364,8 +366,30 @@
                     <input type="date" id="edit-factura-fecha" required>
                 </div>
                 <input type="hidden" id="edit-factura-id">
-                <button type="submit" class="btn-primary">Guardar Cambios</button>
-                <button type="button" class="btn-secondary" onclick="closeEditFacturaModal()">Cancelar</button>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditFacturaModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Fecha de Pago -->
+    <div id="fecha-pago-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeFechaPagoModal()">&times;</span>
+            <h2>Marcar Factura como Pagada</h2>
+            <p>Selecciona la fecha en que se realizó el pago:</p>
+            <form id="fecha-pago-form" onsubmit="handleMarcarPagada(event)">
+                <div class="form-group">
+                    <label for="fecha-pago">Fecha de Pago</label>
+                    <input type="date" id="fecha-pago" required>
+                </div>
+                <input type="hidden" id="venc-id-pago">
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Confirmar Pago</button>
+                    <button type="button" class="btn-secondary" onclick="closeFechaPagoModal()">Cancelar</button>
+                </div>
             </form>
         </div>
     </div>

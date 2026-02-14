@@ -995,14 +995,33 @@ function loadVencimientosList() {
     container.innerHTML = html;
 }
 
-// Función para marcar factura como pagada
+// Función para abrir modal de fecha de pago
 function marcarComoPagada(vencimientoId) {
+    // Establecer fecha actual como predeterminada
+    const hoy = new Date().toISOString().split('T')[0];
+    document.getElementById('fecha-pago').value = hoy;
+    document.getElementById('venc-id-pago').value = vencimientoId;
+    document.getElementById('fecha-pago-modal').style.display = 'flex';
+}
+
+function closeFechaPagoModal() {
+    document.getElementById('fecha-pago-modal').style.display = 'none';
+    document.getElementById('fecha-pago-form').reset();
+}
+
+// Función para procesar el marcado como pagada con fecha seleccionada
+function handleMarcarPagada(event) {
+    event.preventDefault();
+    
+    const vencimientoId = parseInt(document.getElementById('venc-id-pago').value);
+    const fechaPago = document.getElementById('fecha-pago').value;
+    
     const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
     const venc = vencimientos.find(v => v.id === vencimientoId);
     
     if (venc) {
         venc.estado = 'pagada';
-        venc.fechaPago = new Date().toISOString();
+        venc.fechaPago = fechaPago;
         localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
         
         // Actualizar estado del pedido vinculado a "Pagado"
@@ -1015,6 +1034,7 @@ function marcarComoPagada(vencimientoId) {
             }
         }
         
+        closeFechaPagoModal();
         loadVencimientosList();
         loadAlertas(); // Actualizar alertas también
         alert('Factura marcada como pagada exitosamente');
