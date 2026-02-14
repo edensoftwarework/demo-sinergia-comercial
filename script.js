@@ -881,6 +881,7 @@ function loadPedidosAdmin() {
     pedidos.forEach(pedido => {
         const codigoPedido = pedido.pedidoId || `PED-${pedido.id}`;
         const estadoActual = pedido.estado || 'Pendiente';
+        const puedeEditar = estadoActual === 'Pendiente' || estadoActual === 'En Proceso';
         html += `
             <tr>
                 <td><strong>${codigoPedido}</strong></td>
@@ -892,7 +893,8 @@ function loadPedidosAdmin() {
                 <td><span class="status-badge status-${estadoActual.toLowerCase().replace(' ', '-')}">${estadoActual}</span></td>
                 <td>
                     ${estadoActual === 'Pendiente' ? `<button class="btn-action" onclick="cambiarEstadoPedido(${pedido.id}, 'En Proceso')">Procesar</button>` : ''}
-                    ${estadoActual === 'En Proceso' ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
+                    ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoAdmin(${pedido.id})" style="margin-left: 0.5rem;">Editar</button>` : ''}
+                    ${estadoActual === 'En Proceso' && !puedeEditar ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
                     ${estadoActual === 'Facturado' ? `<span style="color: #d4983d; font-weight: 600;">Facturado</span>` : ''}
                     ${estadoActual === 'Pagado' ? `<span style="color: #28a745; font-weight: 600;">✓ Completado</span>` : ''}
                 </td>
@@ -1395,29 +1397,112 @@ function showClientSection(section) {
         loadMisPedidos();
     } else if (section === 'mis-datos') {
         loadMisDatos();
+    } else if (section === 'nuevo-pedido') {
+        // Resetear carrito al volver a nuevo pedido
+        productosCarrito = [];
+        document.getElementById('productos-carrito').style.display = 'none';
     }
 }
 
-function handleNuevoPedido(event) {
+// Variable global para el carrito de productos
+let productosCarrito = [];
+let marcaSeleccionadaCarrito = '';
+
+function handleAgregarProducto(event) {
     event.preventDefault();
 
-    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const marca = document.getElementById('pedido-marca').value;
     const productoSelect = document.getElementById('pedido-producto');
     const productoNombre = productoSelect.options[productoSelect.selectedIndex].text;
+    const cantidad = parseInt(document.getElementById('pedido-cantidad').value);
+    const unidad = document.getElementById('pedido-unidad').value;
+
+    // Si ya hay productos, verificar que sea la misma marca
+    if (productosCarrito.length > 0 && marcaSeleccionadaCarrito !== marca) {
+        alert('Solo puedes agregar productos de la misma marca. Si deseas ordenar de otra marca, envía este pedido primero y crea uno nuevo.');
+        return;
+    }
+
+    // Agregar producto al carrito
+    productosCarrito.push({
+        producto: productoNombre,
+        cantidad: cantidad,
+        unidad: unidad
+    });
+
+    marcaSeleccionadaCarrito = marca;
+
+    // Mostrar carrito y actualizar vista
+    document.getElementById('productos-carrito').style.display = 'block';
+    actualizarVistaCarrito();
+
+    // Limpiar campos de producto y cantidad
+    document.getElementById('pedido-cantidad').value = '';
+    productoSelect.selectedIndex = 0;
+
+    alert('Producto agregado. Puedes agregar más productos de ' + marca + ' o enviar el pedido.');
+}
+
+function actualizarVistaCarrito() {
+    const container = document.getElementById('lista-productos-carrito');
+    let html = '<div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">';
+    html += `<p style="margin: 0 0 0.5rem 0;"><strong>Marca:</strong> ${marcaSeleccionadaCarrito}</p>`;
     
-    // Generar ID único para el pedido
+    productosCarrito.forEach((item, index) => {
+        html += `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: white; margin-bottom: 0.5rem; border-radius: 5px;">
+                <span><strong>${item.producto}</strong> - ${item.cantidad} ${item.unidad}</span>
+                <button class="btn-secondary" onclick="eliminarProductoCarrito(${index})" style="padding: 0.3rem 0.8rem;">Eliminar</button>
+            </div>
+        `;
+    });
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+function eliminarProductoCarrito(index) {
+    productosCarrito.splice(index, 1);
+    if (productosCarrito.length === 0) {
+        document.getElementById('productos-carrito').style.display = 'none';
+        marcaSeleccionadaCarrito = '';
+    } else {
+        actualizarVistaCarrito();
+    }
+}
+
+function cancelarPedido() {
+    if (confirm('¿Estás seguro de cancelar este pedido? Se perderán todos los productos agregados.')) {
+        productosCarrito = [];
+        marcaSeleccionadaCarrito = '';
+        document.getElementById('productos-carrito').style.display = 'none';
+        document.getElementById('pedido-form').reset();
+        document.getElementById('pedido-producto').disabled = true;
+    }
+}
+
+function enviarPedidoCompleto() {
+    if (productosCarrito.length === 0) {
+        alert('Debes agregar al menos un producto');
+        return;
+    }
+
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
     const pedidoId = 'PED-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+    
+    // Crear descripción de productos
+    let descripcionProductos = productosCarrito.map(p => `${p.producto} (${p.cantidad} ${p.unidad})`).join(', ');
     
     const nuevoPedido = {
         id: pedidos.length + 1,
         pedidoId: pedidoId,
         clienteId: currentUser.id,
         clienteNombre: currentUser.nombre,
-        marca: document.getElementById('pedido-marca').value,
-        producto: productoNombre,
-        cantidad: parseInt(document.getElementById('pedido-cantidad').value),
-        unidad: document.getElementById('pedido-unidad').value,
-        observaciones: document.getElementById('pedido-observaciones').value,
+        marca: marcaSeleccionadaCarrito,
+        producto: descripcionProductos,
+        productos: productosCarrito, // Array completo de productos
+        cantidad: productosCarrito.reduce((sum, p) => sum + p.cantidad, 0),
+        unidad: 'items',
+        observaciones: document.getElementById('pedido-observaciones-final').value,
         fecha: new Date().toISOString(),
         estado: 'Pendiente'
     };
@@ -1426,8 +1511,19 @@ function handleNuevoPedido(event) {
     localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
 
     alert('Pedido enviado exitosamente. Código de seguimiento: ' + pedidoId);
+    
+    // Limpiar todo
+    productosCarrito = [];
+    marcaSeleccionadaCarrito = '';
+    document.getElementById('productos-carrito').style.display = 'none';
     document.getElementById('pedido-form').reset();
     document.getElementById('pedido-producto').disabled = true;
+    document.getElementById('pedido-observaciones-final').value = '';
+}
+
+// Mantener función antigua para compatibilidad
+function handleNuevoPedido(event) {
+    handleAgregarProducto(event);
 }
 
 function loadMisPedidos() {
@@ -1447,6 +1543,7 @@ function loadMisPedidos() {
     misPedidos.forEach(pedido => {
         const estadoDisplay = pedido.estado || 'Pendiente';
         const codigoPedido = pedido.pedidoId || `PED-${pedido.id}`;
+        const puedeEditar = estadoDisplay === 'Pendiente';
         html += `
             <div class="card">
                 <h3>Pedido ${codigoPedido}</h3>
@@ -1456,6 +1553,7 @@ function loadMisPedidos() {
                 <p><strong>Cantidad:</strong> ${pedido.cantidad} ${pedido.unidad || 'unidades'}</p>
                 <p><strong>Observaciones:</strong> ${pedido.observaciones || 'Ninguna'}</p>
                 <p><strong>Estado:</strong> <span class="status-badge status-${estadoDisplay.toLowerCase().replace(' ', '-')}">${estadoDisplay}</span></p>
+                ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoCliente(${pedido.id})">Editar Pedido</button>` : ''}
             </div>
         `;
     });
@@ -1707,5 +1805,90 @@ function handleEditarMisDatos(event) {
         closeEditarMisDatosModal();
         loadMisDatos();
         alert('Datos actualizados correctamente');
+    }
+}
+
+// Funciones para editar pedidos (Cliente)
+function editarPedidoCliente(pedidoId) {
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedido = pedidos.find(p => p.id === pedidoId);
+    
+    if (pedido) {
+        document.getElementById('edit-pedido-cliente-id').value = pedido.id;
+        document.getElementById('edit-pedido-cliente-marca').value = pedido.marca;
+        document.getElementById('edit-pedido-cliente-producto').value = pedido.producto;
+        document.getElementById('edit-pedido-cliente-cantidad').value = pedido.cantidad;
+        document.getElementById('edit-pedido-cliente-unidad').value = pedido.unidad;
+        document.getElementById('edit-pedido-cliente-observaciones').value = pedido.observaciones || '';
+        document.getElementById('editar-pedido-cliente-modal').style.display = 'flex';
+    }
+}
+
+function closeEditarPedidoClienteModal() {
+    document.getElementById('editar-pedido-cliente-modal').style.display = 'none';
+    document.getElementById('editar-pedido-cliente-form').reset();
+}
+
+function handleEditarPedidoCliente(event) {
+    event.preventDefault();
+    
+    const pedidoId = parseInt(document.getElementById('edit-pedido-cliente-id').value);
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedido = pedidos.find(p => p.id === pedidoId);
+    
+    if (pedido) {
+        pedido.producto = document.getElementById('edit-pedido-cliente-producto').value;
+        pedido.cantidad = parseInt(document.getElementById('edit-pedido-cliente-cantidad').value);
+        pedido.unidad = document.getElementById('edit-pedido-cliente-unidad').value;
+        pedido.observaciones = document.getElementById('edit-pedido-cliente-observaciones').value;
+        
+        localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+        
+        closeEditarPedidoClienteModal();
+        loadMisPedidos();
+        alert('Pedido actualizado exitosamente');
+    }
+}
+
+// Funciones para editar pedidos (Admin)
+function editarPedidoAdmin(pedidoId) {
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedido = pedidos.find(p => p.id === pedidoId);
+    
+    if (pedido) {
+        document.getElementById('edit-pedido-admin-id').value = pedido.id;
+        document.getElementById('edit-pedido-admin-cliente').value = pedido.clienteNombre;
+        document.getElementById('edit-pedido-admin-marca').value = pedido.marca;
+        document.getElementById('edit-pedido-admin-producto').value = pedido.producto;
+        document.getElementById('edit-pedido-admin-cantidad').value = pedido.cantidad;
+        document.getElementById('edit-pedido-admin-unidad').value = pedido.unidad;
+        document.getElementById('edit-pedido-admin-observaciones').value = pedido.observaciones || '';
+        document.getElementById('editar-pedido-admin-modal').style.display = 'flex';
+    }
+}
+
+function closeEditarPedidoAdminModal() {
+    document.getElementById('editar-pedido-admin-modal').style.display = 'none';
+    document.getElementById('editar-pedido-admin-form').reset();
+}
+
+function handleEditarPedidoAdmin(event) {
+    event.preventDefault();
+    
+    const pedidoId = parseInt(document.getElementById('edit-pedido-admin-id').value);
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedido = pedidos.find(p => p.id === pedidoId);
+    
+    if (pedido) {
+        pedido.producto = document.getElementById('edit-pedido-admin-producto').value;
+        pedido.cantidad = parseInt(document.getElementById('edit-pedido-admin-cantidad').value);
+        pedido.unidad = document.getElementById('edit-pedido-admin-unidad').value;
+        pedido.observaciones = document.getElementById('edit-pedido-admin-observaciones').value;
+        
+        localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+        
+        closeEditarPedidoAdminModal();
+        loadPedidosAdmin();
+        alert('Pedido actualizado exitosamente');
     }
 }

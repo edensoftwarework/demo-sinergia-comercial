@@ -73,6 +73,11 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    pointer-events: none;
+}
+
+.hero * {
+    pointer-events: auto;
 }
 
 .hero h2 {
@@ -1413,6 +1418,21 @@ html {
 }
 
 #venc-pedidos-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+#edit-pedidos-container label {
+    transition: background 0.2s ease;
+}
+
+#edit-pedidos-container label:hover {
+    background: #f8f9fa !important;
+}
+
+#edit-pedidos-container input[type="checkbox"] {
     width: 18px;
     height: 18px;
     cursor: pointer;

@@ -562,7 +562,7 @@
             <!-- Sección Nuevo Pedido -->
             <div id="client-nuevo-pedido" class="dashboard-section">
                 <h2>Realizar Nuevo Pedido</h2>
-                <form id="pedido-form" onsubmit="handleNuevoPedido(event)">
+                <form id="pedido-form" onsubmit="handleAgregarProducto(event)">
                     <div class="form-group">
                         <label for="pedido-marca">Seleccionar Marca</label>
                         <select id="pedido-marca" required onchange="loadProductsByMarca()">
@@ -599,12 +599,22 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="pedido-observaciones">Observaciones / Descuentos Especiales</label>
-                        <textarea id="pedido-observaciones" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">Enviar Pedido</button>
+                    <button type="submit" class="btn-primary">Agregar Producto</button>
                 </form>
+                
+                <!-- Lista de productos agregados -->
+                <div id="productos-carrito" style="display: none; margin-top: 2rem;">
+                    <h3>Productos en el pedido:</h3>
+                    <div id="lista-productos-carrito"></div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="pedido-observaciones-final">Observaciones / Descuentos Especiales</label>
+                        <textarea id="pedido-observaciones-final" rows="3"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn-primary" onclick="enviarPedidoCompleto()">Enviar Pedido Completo</button>
+                        <button class="btn-secondary" onclick="cancelarPedido()">Cancelar</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Sección Mis Pedidos -->
@@ -668,6 +678,100 @@
                 <div class="modal-buttons">
                     <button type="submit" class="btn-primary">Guardar Cambios</button>
                     <button type="button" class="btn-secondary" onclick="closeEditarMisDatosModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Pedido (Cliente) -->
+    <div id="editar-pedido-cliente-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditarPedidoClienteModal()">&times;</span>
+            <h2>Editar Pedido</h2>
+            <form id="editar-pedido-cliente-form" onsubmit="handleEditarPedidoCliente(event)">
+                <input type="hidden" id="edit-pedido-cliente-id">
+                <div class="form-group">
+                    <label>Marca</label>
+                    <input type="text" id="edit-pedido-cliente-marca" disabled style="background: #f0f0f0;">
+                </div>
+                <div class="form-group">
+                    <label for="edit-pedido-cliente-producto">Producto</label>
+                    <input type="text" id="edit-pedido-cliente-producto" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-pedido-cliente-cantidad">Cantidad</label>
+                        <input type="number" id="edit-pedido-cliente-cantidad" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-pedido-cliente-unidad">Unidad</label>
+                        <select id="edit-pedido-cliente-unidad" required>
+                            <option value="unidades">Unidades</option>
+                            <option value="cajas">Cajas</option>
+                            <option value="paquetes">Paquetes</option>
+                            <option value="bolsas">Bolsas</option>
+                            <option value="displays">Displays</option>
+                            <option value="kg">Kilogramos</option>
+                            <option value="gramos">Gramos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-pedido-cliente-observaciones">Observaciones</label>
+                    <textarea id="edit-pedido-cliente-observaciones" rows="3"></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditarPedidoClienteModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Pedido (Admin) -->
+    <div id="editar-pedido-admin-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditarPedidoAdminModal()">&times;</span>
+            <h2>Editar Pedido (Administrador)</h2>
+            <form id="editar-pedido-admin-form" onsubmit="handleEditarPedidoAdmin(event)">
+                <input type="hidden" id="edit-pedido-admin-id">
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" id="edit-pedido-admin-cliente" disabled style="background: #f0f0f0;">
+                </div>
+                <div class="form-group">
+                    <label>Marca</label>
+                    <input type="text" id="edit-pedido-admin-marca" disabled style="background: #f0f0f0;">
+                </div>
+                <div class="form-group">
+                    <label for="edit-pedido-admin-producto">Producto</label>
+                    <input type="text" id="edit-pedido-admin-producto" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-pedido-admin-cantidad">Cantidad</label>
+                        <input type="number" id="edit-pedido-admin-cantidad" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-pedido-admin-unidad">Unidad</label>
+                        <select id="edit-pedido-admin-unidad" required>
+                            <option value="unidades">Unidades</option>
+                            <option value="cajas">Cajas</option>
+                            <option value="paquetes">Paquetes</option>
+                            <option value="bolsas">Bolsas</option>
+                            <option value="displays">Displays</option>
+                            <option value="kg">Kilogramos</option>
+                            <option value="gramos">Gramos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="edit-pedido-admin-observaciones">Observaciones</label>
+                    <textarea id="edit-pedido-admin-observaciones" rows="3"></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditarPedidoAdminModal()">Cancelar</button>
                 </div>
             </form>
         </div>
