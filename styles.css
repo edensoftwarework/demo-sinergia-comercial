@@ -90,6 +90,7 @@ body {
     font-size: 1.2rem;
     margin-bottom: 3rem;
     opacity: 0.9;
+    pointer-events: none;
 }
 
 .stats {
@@ -1246,6 +1247,12 @@ html {
 .status-pagado {
     background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
     color: white;
+}
+
+.status-cancelado {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: white;
+    text-decoration: line-through;
 }
 
 .text-muted {

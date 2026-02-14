@@ -882,26 +882,214 @@ function loadPedidosAdmin() {
         const codigoPedido = pedido.pedidoId || `PED-${pedido.id}`;
         const estadoActual = pedido.estado || 'Pendiente';
         const puedeEditar = estadoActual === 'Pendiente' || estadoActual === 'En Proceso';
-        html += `
-            <tr>
-                <td><strong>${codigoPedido}</strong></td>
-                <td>${formatDate(pedido.fecha)}</td>
-                <td>${pedido.clienteNombre}</td>
-                <td>${pedido.marca}</td>
-                <td>${pedido.producto}</td>
-                <td>${pedido.cantidad} ${pedido.unidad || 'unidades'}</td>
-                <td><span class="status-badge status-${estadoActual.toLowerCase().replace(' ', '-')}">${estadoActual}</span></td>
-                <td>
-                    ${estadoActual === 'Pendiente' ? `<button class="btn-action" onclick="cambiarEstadoPedido(${pedido.id}, 'En Proceso')">Procesar</button>` : ''}
-                    ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoAdmin(${pedido.id})" style="margin-left: 0.5rem;">Editar</button>` : ''}
-                    ${estadoActual === 'En Proceso' && !puedeEditar ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
-                    ${estadoActual === 'Facturado' ? `<span style="color: #d4983d; font-weight: 600;">Facturado</span>` : ''}
-                    ${estadoActual === 'Pagado' ? `<span style="color: #28a745; font-weight: 600;">✓ Completado</span>` : ''}
-                </td>
-            </tr>
-        `;
+        
+        // Determinar si tiene múltiples productos
+        const tieneMultiplesProductos = pedido.productos && pedido.productos.length > 1;
+        const numProductos = pedido.productos ? pedido.productos.length : 1;
+        
+        if (tieneMultiplesProductos) {
+            // Primera fila con información general
+            html += `
+                <tr style="border-bottom: none;">
+                    <td rowspan="${numProductos}" style="vertical-align: top;"><strong>${codigoPedido}</strong></td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">${formatDate(pedido.fecha)}</td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">${pedido.clienteNombre}</td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">${pedido.marca}</td>
+                    <td>${pedido.productos[0].producto}</td>
+                    <td>${pedido.productos[0].cantidad} ${pedido.productos[0].unidad}</td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;"><span class="status-badge status-${estadoActual.toLowerCase().replace(' ', '-')}">${estadoActual}</span></td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">
+                        ${estadoActual === 'Pendiente' ? `<button class="btn-action" onclick="cambiarEstadoPedido(${pedido.id}, 'En Proceso')">Procesar</button>` : ''}
+                        ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoAdmin(${pedido.id})" style="margin-left: 0.5rem; margin-top: ${estadoActual === 'Pendiente' ? '0.3rem' : '0'};">Editar</button>` : ''}
+                        ${estadoActual === 'En Proceso' && !puedeEditar ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
+                        ${estadoActual === 'Facturado' ? `<span style="color: #d4983d; font-weight: 600;">Facturado</span>` : ''}
+                        ${estadoActual === 'Pagado' ? `<span style="color: #28a745; font-weight: 600;">✓ Completado</span>` : ''}
+                        ${estadoActual === 'Cancelado' ? `<span style="color: #6c757d; font-weight: 600;">✗ Cancelado</span>` : ''}
+                    </td>
+                </tr>
+            `;
+            // Subfilas para productos adicionales
+            for (let i = 1; i < pedido.productos.length; i++) {
+                html += `
+                    <tr style="border-top: 1px dashed #e0e0e0;">
+                        <td>${pedido.productos[i].producto}</td>
+                        <td>${pedido.productos[i].cantidad} ${pedido.productos[i].unidad}</td>
+                    </tr>
+                `;
+            }
+        } else {
+            // Pedido con un solo producto (lógica antigua)
+            const productoDisplay = pedido.productos && pedido.productos[0] 
+                ? pedido.productos[0].producto 
+                : pedido.producto;
+            const cantidadDisplay = pedido.productos && pedido.productos[0]
+                ? `${pedido.productos[0].cantidad} ${pedido.productos[0].unidad}`
+                : `${pedido.cantidad} ${pedido.unidad || 'unidades'}`;
+                
+            html += `
+                <tr>
+                    <td><strong>${codigoPedido}</strong></td>
+                    <td>${formatDate(pedido.fecha)}</td>
+                    <td>${pedido.clienteNombre}</td>
+                    <td>${pedido.marca}</td>
+                    <td>${productoDisplay}</td>
+                    <td>${cantidadDisplay}</td>
+                    <td><span class="status-badge status-${estadoActual.toLowerCase().replace(' ', '-')}">${estadoActual}</span></td>
+                    <td>
+                        ${estadoActual === 'Pendiente' ? `<button class="btn-action" onclick="cambiarEstadoPedido(${pedido.id}, 'En Proceso')">Procesar</button>` : ''}
+                        ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoAdmin(${pedido.id})" style="margin-left: 0.5rem; margin-top: ${estadoActual === 'Pendiente' ? '0.3rem' : '0'};">Editar</button>` : ''}
+                        ${estadoActual === 'En Proceso' && !puedeEditar ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
+                        ${estadoActual === 'Facturado' ? `<span style="color: #d4983d; font-weight: 600;">Facturado</span>` : ''}
+                        ${estadoActual === 'Pagado' ? `<span style="color: #28a745; font-weight: 600;">✓ Completado</span>` : ''}
+                        ${estadoActual === 'Cancelado' ? `<span style="color: #6c757d; font-weight: 600;">✗ Cancelado</span>` : ''}
+                    </td>
+                </tr>
+            `;
+        }
     });
 
+    html += '</tbody></table>';
+    container.innerHTML = html;
+    
+    // Cargar opciones de filtro de clientes
+    cargarOpcionesFiltroClientes('filtro-pedido-cliente');
+}
+
+// Cargar opciones de clientes en los filtros
+function cargarOpcionesFiltroClientes(selectId) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    
+    const usuarios = JSON.parse(localStorage.getItem('sinergia_usuarios'));
+    const clientes = usuarios.filter(u => u.tipo === 'cliente' && u.aprobado);
+    
+    let html = '<option value="">Todos los clientes</option>';
+    clientes.forEach(cliente => {
+        html += `<option value="${cliente.nombre}">${cliente.nombre} - ${cliente.empresa}</option>`;
+    });
+    
+    select.innerHTML = html;
+}
+
+// Aplicar filtros a la tabla de pedidos
+function aplicarFiltrosPedidos() {
+    const filtroCliente = document.getElementById('filtro-pedido-cliente').value.toLowerCase();
+    const filtroEstado = document.getElementById('filtro-pedido-estado').value;
+    const filtroFecha = document.getElementById('filtro-pedido-fecha').value;
+    
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    let pedidosFiltrados = pedidos;
+    
+    // Filtrar por cliente
+    if (filtroCliente) {
+        pedidosFiltrados = pedidosFiltrados.filter(p => 
+            p.clienteNombre.toLowerCase().includes(filtroCliente)
+        );
+    }
+    
+    // Filtrar por estado
+    if (filtroEstado) {
+        pedidosFiltrados = pedidosFiltrados.filter(p => 
+            (p.estado || 'Pendiente') === filtroEstado
+        );
+    }
+    
+    // Filtrar por fecha
+    if (filtroFecha) {
+        pedidosFiltrados = pedidosFiltrados.filter(p => {
+            const fechaPedido = new Date(p.fecha).toISOString().split('T')[0];
+            return fechaPedido === filtroFecha;
+        });
+    }
+    
+    // Renderizar tabla filtrada
+    renderizarTablaPedidos(pedidosFiltrados);
+}
+
+// Renderizar tabla de pedidos con datos filtrados
+function renderizarTablaPedidos(pedidos) {
+    const container = document.getElementById('pedidos-container');
+    
+    if (pedidos.length === 0) {
+        container.innerHTML = '<div class="empty-state"><p>No hay pedidos que coincidan con los filtros</p></div>';
+        return;
+    }
+    
+    // Ordenar por fecha descendente
+    pedidos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    
+    let html = '<table><thead><tr><th>Código</th><th>Fecha</th><th>Cliente</th><th>Marca</th><th>Producto</th><th>Cantidad</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+    
+    pedidos.forEach(pedido => {
+        const codigoPedido = pedido.pedidoId || `PED-${pedido.id}`;
+        const estadoActual = pedido.estado || 'Pendiente';
+        const puedeEditar = estadoActual === 'Pendiente' || estadoActual === 'En Proceso';
+        
+        // Determinar si tiene múltiples productos
+        const tieneMultiplesProductos = pedido.productos && pedido.productos.length > 1;
+        const numProductos = pedido.productos ? pedido.productos.length : 1;
+        
+        if (tieneMultiplesProductos) {
+            // Primera fila con información general
+            html += `
+                <tr style="border-bottom: none;">
+                    <td rowspan="${numProductos}" style="vertical-align: top;"><strong>${codigoPedido}</strong></td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">${formatDate(pedido.fecha)}</td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">${pedido.clienteNombre}</td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">${pedido.marca}</td>
+                    <td>${pedido.productos[0].producto}</td>
+                    <td>${pedido.productos[0].cantidad} ${pedido.productos[0].unidad}</td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;"><span class="status-badge status-${estadoActual.toLowerCase().replace(' ', '-')}">${estadoActual}</span></td>
+                    <td rowspan="${numProductos}" style="vertical-align: top;">
+                        ${estadoActual === 'Pendiente' ? `<button class="btn-action" onclick="cambiarEstadoPedido(${pedido.id}, 'En Proceso')">Procesar</button>` : ''}
+                        ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoAdmin(${pedido.id})" style="margin-left: 0.5rem; margin-top: ${estadoActual === 'Pendiente' ? '0.3rem' : '0'};">Editar</button>` : ''}
+                        ${estadoActual === 'En Proceso' && !puedeEditar ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
+                        ${estadoActual === 'Facturado' ? `<span style="color: #d4983d; font-weight: 600;">Facturado</span>` : ''}
+                        ${estadoActual === 'Pagado' ? `<span style="color: #28a745; font-weight: 600;">✓ Completado</span>` : ''}
+                        ${estadoActual === 'Cancelado' ? `<span style="color: #6c757d; font-weight: 600;">✗ Cancelado</span>` : ''}
+                    </td>
+                </tr>
+            `;
+            // Subfilas para productos adicionales
+            for (let i = 1; i < pedido.productos.length; i++) {
+                html += `
+                    <tr style="border-top: 1px dashed #e0e0e0;">
+                        <td>${pedido.productos[i].producto}</td>
+                        <td>${pedido.productos[i].cantidad} ${pedido.productos[i].unidad}</td>
+                    </tr>
+                `;
+            }
+        } else {
+            // Pedido con un solo producto (lógica antigua)
+            const productoDisplay = pedido.productos && pedido.productos[0] 
+                ? pedido.productos[0].producto 
+                : pedido.producto;
+            const cantidadDisplay = pedido.productos && pedido.productos[0]
+                ? `${pedido.productos[0].cantidad} ${pedido.productos[0].unidad}`
+                : `${pedido.cantidad} ${pedido.unidad || 'unidades'}`;
+                
+            html += `
+                <tr>
+                    <td><strong>${codigoPedido}</strong></td>
+                    <td>${formatDate(pedido.fecha)}</td>
+                    <td>${pedido.clienteNombre}</td>
+                    <td>${pedido.marca}</td>
+                    <td>${productoDisplay}</td>
+                    <td>${cantidadDisplay}</td>
+                    <td><span class="status-badge status-${estadoActual.toLowerCase().replace(' ', '-')}">${estadoActual}</span></td>
+                    <td>
+                        ${estadoActual === 'Pendiente' ? `<button class="btn-action" onclick="cambiarEstadoPedido(${pedido.id}, 'En Proceso')">Procesar</button>` : ''}
+                        ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoAdmin(${pedido.id})" style="margin-left: 0.5rem; margin-top: ${estadoActual === 'Pendiente' ? '0.3rem' : '0'};">Editar</button>` : ''}
+                        ${estadoActual === 'En Proceso' && !puedeEditar ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
+                        ${estadoActual === 'Facturado' ? `<span style="color: #d4983d; font-weight: 600;">Facturado</span>` : ''}
+                        ${estadoActual === 'Pagado' ? `<span style="color: #28a745; font-weight: 600;">✓ Completado</span>` : ''}
+                        ${estadoActual === 'Cancelado' ? `<span style="color: #6c757d; font-weight: 600;">✗ Cancelado</span>` : ''}
+                    </td>
+                </tr>
+            `;
+        }
+    });
+    
     html += '</tbody></table>';
     container.innerHTML = html;
 }
@@ -931,20 +1119,24 @@ function loadPedidosDelCliente() {
     }
     
     const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
-    const pedidosCliente = pedidos.filter(p => p.clienteId === clienteId && p.estado !== 'Pagado');
+    // Solo mostrar pedidos En Proceso
+    const pedidosCliente = pedidos.filter(p => p.clienteId === clienteId && p.estado === 'En Proceso');
     
     let html = '';
     
     if (pedidosCliente.length === 0) {
-        html = '<label style="display: block; padding: 0.5rem; background: #f8f9fa; border-radius: 5px;"><input type="checkbox" name="pedido-vinculado" value="sin-pedido" style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>';
+        html = '<p style="color: #999; font-style: italic; padding: 1rem;">No hay pedidos en estado "En Proceso" disponibles para vincular.</p>';
+        html += '<label style="display: block; padding: 0.5rem; background: #f8f9fa; border-radius: 5px; margin-top: 0.5rem;"><input type="checkbox" name="pedido-vinculado" value="sin-pedido" style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>';
     } else {
         pedidosCliente.forEach(pedido => {
-            const estadoColor = pedido.estado === 'Pendiente' ? '#ffc107' : pedido.estado === 'En Proceso' ? '#667eea' : '#d4983d';
+            const productoDisplay = pedido.productos && pedido.productos.length > 1 
+                ? `${pedido.productos.length} productos` 
+                : pedido.producto;
             html += `
                 <label style="display: block; padding: 0.5rem; margin-bottom: 0.3rem; cursor: pointer; transition: background 0.2s;">
                     <input type="checkbox" name="pedido-vinculado" value="${pedido.pedidoId}" style="margin-right: 0.5rem;">
-                    <strong>${pedido.pedidoId}</strong> - ${pedido.producto} 
-                    <span style="color: ${estadoColor}; font-size: 0.85em;">(${pedido.estado})</span>
+                    <strong>${pedido.pedidoId}</strong> - ${productoDisplay} 
+                    <span style="color: #667eea; font-size: 0.85em;">(En Proceso)</span>
                 </label>
             `;
         });
@@ -1055,6 +1247,95 @@ function loadVencimientosList() {
             <tr>
                 <td>${venc.clienteNombre}</td>
                 <td>${venc.factura}</td>
+                <td>$${venc.monto.toLocaleString()}</td>
+                <td>${formatDate(venc.fechaVencimiento)}</td>
+                <td>${estado}</td>
+                <td>${accionBtn}</td>
+            </tr>
+        `;
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+    
+    // Cargar opciones de filtro de clientes
+    cargarOpcionesFiltroClientes('filtro-venc-cliente');
+}
+
+// Aplicar filtros a la tabla de vencimientos
+function aplicarFiltrosVencimientos() {
+    const filtroCliente = document.getElementById('filtro-venc-cliente').value.toLowerCase();
+    const filtroEstado = document.getElementById('filtro-venc-estado').value;
+    const filtroFecha = document.getElementById('filtro-venc-fecha').value;
+    
+    const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
+    let vencimientosFiltrados = vencimientos;
+    
+    // Filtrar por cliente
+    if (filtroCliente) {
+        vencimientosFiltrados = vencimientosFiltrados.filter(v => 
+            v.clienteNombre.toLowerCase().includes(filtroCliente)
+        );
+    }
+    
+    // Filtrar por estado
+    if (filtroEstado) {
+        if (filtroEstado === 'Pagado') {
+            vencimientosFiltrados = vencimientosFiltrados.filter(v => v.estado === 'pagada');
+        } else if (filtroEstado === 'Pendiente') {
+            vencimientosFiltrados = vencimientosFiltrados.filter(v => v.estado !== 'pagada');
+        }
+    }
+    
+    // Filtrar por fecha de vencimiento
+    if (filtroFecha) {
+        vencimientosFiltrados = vencimientosFiltrados.filter(v => {
+            const fechaVenc = new Date(v.fechaVencimiento).toISOString().split('T')[0];
+            return fechaVenc === filtroFecha;
+        });
+    }
+    
+    // Renderizar tabla filtrada
+    renderizarTablaVencimientos(vencimientosFiltrados);
+}
+
+// Renderizar tabla de vencimientos con datos filtrados
+function renderizarTablaVencimientos(vencimientos) {
+    const container = document.getElementById('vencimientos-list');
+    
+    if (vencimientos.length === 0) {
+        container.innerHTML = '<div class="empty-state"><p>No hay vencimientos que coincidan con los filtros</p></div>';
+        return;
+    }
+    
+    let html = '<h3>Vencimientos Registrados</h3><table><thead><tr><th>Cliente</th><th>Factura</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+
+    vencimientos.forEach(venc => {
+        const diasHasta = Math.floor((new Date(venc.fechaVencimiento) - Date.now()) / (1000 * 60 * 60 * 24));
+        let estado = '';
+        let accionBtn = '';
+        
+        if (venc.estado === 'pagada') {
+            estado = `<span class="status-badge status-aprobado">✓ Pagada</span>`;
+            accionBtn = `<span class="text-muted" style="font-size: 0.85em;">Pagada el ${formatDate(venc.fechaPago)}</span>`;
+        } else {
+            if (diasHasta < 0) {
+                estado = '<span class="status-badge status-pendiente">Vencida</span>';
+            } else if (diasHasta <= 7) {
+                estado = '<span class="status-badge status-pendiente">Por vencer</span>';
+            } else {
+                estado = '<span class="status-badge status-enviado">Pendiente</span>';
+            }
+            accionBtn = `
+                <button class="btn-action" onclick="marcarComoPagada(${venc.id})">Marcar Pagada</button>
+                <button class="btn-action" onclick="editarFactura(${venc.id})" style="margin-left: 0.5rem;">Editar</button>
+            `;
+        }
+
+        html += `
+            <tr>
+                <td>${venc.clienteNombre}</td>
+                <td>${venc.numeroFactura}</td>
                 <td>$${venc.monto.toLocaleString()}</td>
                 <td>${formatDate(venc.fechaVencimiento)}</td>
                 <td>${estado}</td>
@@ -1273,21 +1554,25 @@ function mostrarFormularioEditarFactura(vencimientoId) {
 function loadPedidosParaEditar(clienteId, pedidosVinculados, esSinPedido) {
     const container = document.getElementById('edit-pedidos-container');
     const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
-    const pedidosCliente = pedidos.filter(p => p.clienteId === clienteId && p.estado !== 'Pagado');
+    // Solo mostrar pedidos En Proceso (no Pendiente, ni Facturado, ni Pagado, ni Cancelado)
+    const pedidosCliente = pedidos.filter(p => p.clienteId === clienteId && p.estado === 'En Proceso');
     
     let html = '';
     
     if (pedidosCliente.length === 0 && !esSinPedido) {
-        html = '<label style="display: block; padding: 0.5rem; background: #f8f9fa; border-radius: 5px;"><input type="checkbox" name="edit-pedido-vinculado" value="sin-pedido" checked style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>';
+        html = '<p style="color: #999; font-style: italic; padding: 1rem;">No hay pedidos en estado "En Proceso" disponibles para vincular.</p>';
+        html += '<label style="display: block; padding: 0.5rem; background: #f8f9fa; border-radius: 5px; margin-top: 0.5rem;"><input type="checkbox" name="edit-pedido-vinculado" value="sin-pedido" checked style="margin-right: 0.5rem;"><span style="font-weight: 600; color: #e67e22;">Sin pedido (Excepción)</span></label>';
     } else {
         pedidosCliente.forEach(pedido => {
             const isChecked = pedidosVinculados.includes(pedido.pedidoId) ? 'checked' : '';
-            const estadoColor = pedido.estado === 'Pendiente' ? '#ffc107' : pedido.estado === 'En Proceso' ? '#667eea' : '#d4983d';
+            const productoDisplay = pedido.productos && pedido.productos.length > 1 
+                ? `${pedido.productos.length} productos` 
+                : pedido.producto;
             html += `
                 <label style="display: block; padding: 0.5rem; margin-bottom: 0.3rem; cursor: pointer;">
                     <input type="checkbox" name="edit-pedido-vinculado" value="${pedido.pedidoId}" ${isChecked} style="margin-right: 0.5rem;">
-                    <strong>${pedido.pedidoId}</strong> - ${pedido.producto} 
-                    <span style="color: ${estadoColor}; font-size: 0.85em;">(${pedido.estado})</span>
+                    <strong>${pedido.pedidoId}</strong> - ${productoDisplay} 
+                    <span style="color: #667eea; font-size: 0.85em;">(En Proceso)</span>
                 </label>
             `;
         });
@@ -1544,13 +1829,37 @@ function loadMisPedidos() {
         const estadoDisplay = pedido.estado || 'Pendiente';
         const codigoPedido = pedido.pedidoId || `PED-${pedido.id}`;
         const puedeEditar = estadoDisplay === 'Pendiente';
+        
+        // Generar lista de productos
+        let productosHtml = '';
+        if (pedido.productos && pedido.productos.length > 0) {
+            // Pedido con múltiples productos
+            productosHtml = '<div style="margin: 0.5rem 0;">';
+            pedido.productos.forEach(prod => {
+                productosHtml += `<div style="display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid #eee;">
+                    <span style="flex: 1;">${prod.producto}</span>
+                    <span style="font-weight: 600; color: #667eea;">${prod.cantidad} ${prod.unidad}</span>
+                </div>`;
+            });
+            productosHtml += '</div>';
+        } else {
+            // Pedido antiguo con un solo producto
+            productosHtml = `<div style="display: flex; justify-content: space-between; padding: 0.3rem 0;">
+                <span style="flex: 1;">${pedido.producto}</span>
+                <span style="font-weight: 600; color: #667eea;">${pedido.cantidad} ${pedido.unidad || 'unidades'}</span>
+            </div>`;
+        }
+        
+        const numItems = pedido.productos ? pedido.productos.length : 1;
+        
         html += `
             <div class="card">
                 <h3>Pedido ${codigoPedido}</h3>
                 <p><strong>Fecha:</strong> ${formatDate(pedido.fecha)}</p>
                 <p><strong>Marca:</strong> ${pedido.marca}</p>
-                <p><strong>Producto:</strong> ${pedido.producto}</p>
-                <p><strong>Cantidad:</strong> ${pedido.cantidad} ${pedido.unidad || 'unidades'}</p>
+                <p><strong>Productos:</strong></p>
+                ${productosHtml}
+                <p style="margin-top: 0.5rem;"><strong>N° Items:</strong> ${numItems}</p>
                 <p><strong>Observaciones:</strong> ${pedido.observaciones || 'Ninguna'}</p>
                 <p><strong>Estado:</strong> <span class="status-badge status-${estadoDisplay.toLowerCase().replace(' ', '-')}">${estadoDisplay}</span></p>
                 ${puedeEditar ? `<button class="btn-action" onclick="editarPedidoCliente(${pedido.id})">Editar Pedido</button>` : ''}
@@ -1569,6 +1878,20 @@ function formatDate(dateString) {
 
 // Navegación dinámica y efectos
 document.addEventListener('DOMContentLoaded', function() {
+    // Event listener global para cerrar modales con tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' || e.key === 'Esc') {
+            // Cerrar todos los modales abiertos
+            const modals = document.querySelectorAll('.modal[style*="display: flex"], .modal[style*="display: block"]');
+            modals.forEach(modal => {
+                modal.style.display = 'none';
+                // Resetear formularios si existen
+                const form = modal.querySelector('form');
+                if (form) form.reset();
+            });
+        }
+    });
+    
     // Efecto sticky en navbar al hacer scroll
     const navbar = document.querySelector('.navbar');
     let lastScrollTop = 0;
@@ -1816,11 +2139,79 @@ function editarPedidoCliente(pedidoId) {
     if (pedido) {
         document.getElementById('edit-pedido-cliente-id').value = pedido.id;
         document.getElementById('edit-pedido-cliente-marca').value = pedido.marca;
-        document.getElementById('edit-pedido-cliente-producto').value = pedido.producto;
-        document.getElementById('edit-pedido-cliente-cantidad').value = pedido.cantidad;
-        document.getElementById('edit-pedido-cliente-unidad').value = pedido.unidad;
         document.getElementById('edit-pedido-cliente-observaciones').value = pedido.observaciones || '';
+        
+        // Generar contenedores de productos dinámicamente
+        const container = document.getElementById('edit-productos-container-cliente');
+        container.innerHTML = '';
+        
+        const productos = pedido.productos && pedido.productos.length > 0 
+            ? pedido.productos 
+            : [{ producto: pedido.producto, cantidad: pedido.cantidad, unidad: pedido.unidad || 'unidades' }];
+        
+        // Obtener productos del catálogo de la marca
+        const productosDelCatalogo = catalogoProductos[pedido.marca] || [];
+        
+        productos.forEach((prod, index) => {
+            const productoDiv = document.createElement('div');
+            productoDiv.style.cssText = 'border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; background: #f9f9f9; position: relative;';
+            
+            // Generar opciones del select
+            let optionsHtml = '<option value="">Seleccionar producto...</option>';
+            productosDelCatalogo.forEach(prodCat => {
+                const selected = prodCat.nombre === prod.producto ? 'selected' : '';
+                optionsHtml += `<option value="${prodCat.nombre}" ${selected}>${prodCat.nombre}</option>`;
+            });
+            
+            const eliminarBtn = productos.length > 1 
+                ? `<button type="button" onclick="eliminarProductoEdicion(this)" style="position: absolute; top: 0.5rem; right: 0.5rem; background: #dc3545; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1.2rem; line-height: 1;" title="Eliminar producto">&times;</button>` 
+                : '';
+            
+            productoDiv.innerHTML = `
+                ${eliminarBtn}
+                <h4 style="margin-top: 0; color: #667eea;">Producto ${index + 1}</h4>
+                <div class="form-group">
+                    <label>Producto</label>
+                    <select class="edit-producto-nombre" required>
+                        ${optionsHtml}
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="edit-producto-cantidad" value="${prod.cantidad}" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unidad</label>
+                        <select class="edit-producto-unidad" required>
+                            <option value="unidades" ${prod.unidad === 'unidades' ? 'selected' : ''}>Unidades</option>
+                            <option value="cajas" ${prod.unidad === 'cajas' ? 'selected' : ''}>Cajas</option>
+                            <option value="paquetes" ${prod.unidad === 'paquetes' ? 'selected' : ''}>Paquetes</option>
+                            <option value="bolsas" ${prod.unidad === 'bolsas' ? 'selected' : ''}>Bolsas</option>
+                            <option value="displays" ${prod.unidad === 'displays' ? 'selected' : ''}>Displays</option>
+                            <option value="kg" ${prod.unidad === 'kg' ? 'selected' : ''}>Kilogramos</option>
+                            <option value="gramos" ${prod.unidad === 'gramos' ? 'selected' : ''}>Gramos</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            container.appendChild(productoDiv);
+        });
+        
         document.getElementById('editar-pedido-cliente-modal').style.display = 'flex';
+    }
+}
+
+function eliminarProductoEdicion(boton) {
+    const container = boton.closest('div[style*="border: 1px solid"]');
+    if (container) {
+        container.remove();
+        // Renumerar productos restantes
+        const productos = document.querySelectorAll('#edit-productos-container-cliente > div, #edit-productos-container-admin > div');
+        productos.forEach((div, index) => {
+            const h4 = div.querySelector('h4');
+            if (h4) h4.textContent = `Producto ${index + 1}`;
+        });
     }
 }
 
@@ -1837,9 +2228,34 @@ function handleEditarPedidoCliente(event) {
     const pedido = pedidos.find(p => p.id === pedidoId);
     
     if (pedido) {
-        pedido.producto = document.getElementById('edit-pedido-cliente-producto').value;
-        pedido.cantidad = parseInt(document.getElementById('edit-pedido-cliente-cantidad').value);
-        pedido.unidad = document.getElementById('edit-pedido-cliente-unidad').value;
+        // Recolectar todos los productos editados
+        const productosEditados = [];
+        const productosNombres = document.querySelectorAll('.edit-producto-nombre');
+        const productosCantidades = document.querySelectorAll('.edit-producto-cantidad');
+        const productosUnidades = document.querySelectorAll('.edit-producto-unidad');
+        
+        for (let i = 0; i < productosNombres.length; i++) {
+            productosEditados.push({
+                producto: productosNombres[i].value,
+                cantidad: parseInt(productosCantidades[i].value),
+                unidad: productosUnidades[i].value
+            });
+        }
+        
+        // Actualizar el pedido
+        pedido.productos = productosEditados;
+        
+        // Actualizar campos legacy para compatibilidad
+        if (productosEditados.length === 1) {
+            pedido.producto = productosEditados[0].producto;
+            pedido.cantidad = productosEditados[0].cantidad;
+            pedido.unidad = productosEditados[0].unidad;
+        } else {
+            pedido.producto = productosEditados.map(p => p.producto).join(', ');
+            pedido.cantidad = productosEditados.reduce((sum, p) => sum + p.cantidad, 0);
+            pedido.unidad = 'items';
+        }
+        
         pedido.observaciones = document.getElementById('edit-pedido-cliente-observaciones').value;
         
         localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
@@ -1859,10 +2275,65 @@ function editarPedidoAdmin(pedidoId) {
         document.getElementById('edit-pedido-admin-id').value = pedido.id;
         document.getElementById('edit-pedido-admin-cliente').value = pedido.clienteNombre;
         document.getElementById('edit-pedido-admin-marca').value = pedido.marca;
-        document.getElementById('edit-pedido-admin-producto').value = pedido.producto;
-        document.getElementById('edit-pedido-admin-cantidad').value = pedido.cantidad;
-        document.getElementById('edit-pedido-admin-unidad').value = pedido.unidad;
         document.getElementById('edit-pedido-admin-observaciones').value = pedido.observaciones || '';
+        
+        // Generar contenedores de productos dinámicamente
+        const container = document.getElementById('edit-productos-container-admin');
+        container.innerHTML = '';
+        
+        const productos = pedido.productos && pedido.productos.length > 0 
+            ? pedido.productos 
+            : [{ producto: pedido.producto, cantidad: pedido.cantidad, unidad: pedido.unidad || 'unidades' }];
+        
+        // Obtener productos del catálogo de la marca
+        const productosDelCatalogo = catalogoProductos[pedido.marca] || [];
+        
+        productos.forEach((prod, index) => {
+            const productoDiv = document.createElement('div');
+            productoDiv.style.cssText = 'border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; background: #f9f9f9; position: relative;';
+            
+            // Generar opciones del select
+            let optionsHtml = '<option value="">Seleccionar producto...</option>';
+            productosDelCatalogo.forEach(prodCat => {
+                const selected = prodCat.nombre === prod.producto ? 'selected' : '';
+                optionsHtml += `<option value="${prodCat.nombre}" ${selected}>${prodCat.nombre}</option>`;
+            });
+            
+            const eliminarBtn = productos.length > 1 
+                ? `<button type="button" onclick="eliminarProductoEdicion(this)" style="position: absolute; top: 0.5rem; right: 0.5rem; background: #dc3545; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1.2rem; line-height: 1;" title="Eliminar producto">&times;</button>` 
+                : '';
+            
+            productoDiv.innerHTML = `
+                ${eliminarBtn}
+                <h4 style="margin-top: 0; color: #667eea;">Producto ${index + 1}</h4>
+                <div class="form-group">
+                    <label>Producto</label>
+                    <select class="edit-producto-nombre-admin" required>
+                        ${optionsHtml}
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="edit-producto-cantidad-admin" value="${prod.cantidad}" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unidad</label>
+                        <select class="edit-producto-unidad-admin" required>
+                            <option value="unidades" ${prod.unidad === 'unidades' ? 'selected' : ''}>Unidades</option>
+                            <option value="cajas" ${prod.unidad === 'cajas' ? 'selected' : ''}>Cajas</option>
+                            <option value="paquetes" ${prod.unidad === 'paquetes' ? 'selected' : ''}>Paquetes</option>
+                            <option value="bolsas" ${prod.unidad === 'bolsas' ? 'selected' : ''}>Bolsas</option>
+                            <option value="displays" ${prod.unidad === 'displays' ? 'selected' : ''}>Displays</option>
+                            <option value="kg" ${prod.unidad === 'kg' ? 'selected' : ''}>Kilogramos</option>
+                            <option value="gramos" ${prod.unidad === 'gramos' ? 'selected' : ''}>Gramos</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            container.appendChild(productoDiv);
+        });
+        
         document.getElementById('editar-pedido-admin-modal').style.display = 'flex';
     }
 }
@@ -1880,9 +2351,34 @@ function handleEditarPedidoAdmin(event) {
     const pedido = pedidos.find(p => p.id === pedidoId);
     
     if (pedido) {
-        pedido.producto = document.getElementById('edit-pedido-admin-producto').value;
-        pedido.cantidad = parseInt(document.getElementById('edit-pedido-admin-cantidad').value);
-        pedido.unidad = document.getElementById('edit-pedido-admin-unidad').value;
+        // Recolectar todos los productos editados
+        const productosEditados = [];
+        const productosNombres = document.querySelectorAll('.edit-producto-nombre-admin');
+        const productosCantidades = document.querySelectorAll('.edit-producto-cantidad-admin');
+        const productosUnidades = document.querySelectorAll('.edit-producto-unidad-admin');
+        
+        for (let i = 0; i < productosNombres.length; i++) {
+            productosEditados.push({
+                producto: productosNombres[i].value,
+                cantidad: parseInt(productosCantidades[i].value),
+                unidad: productosUnidades[i].value
+            });
+        }
+        
+        // Actualizar el pedido
+        pedido.productos = productosEditados;
+        
+        // Actualizar campos legacy para compatibilidad
+        if (productosEditados.length === 1) {
+            pedido.producto = productosEditados[0].producto;
+            pedido.cantidad = productosEditados[0].cantidad;
+            pedido.unidad = productosEditados[0].unidad;
+        } else {
+            pedido.producto = productosEditados.map(p => p.producto).join(', ');
+            pedido.cantidad = productosEditados.reduce((sum, p) => sum + p.cantidad, 0);
+            pedido.unidad = 'items';
+        }
+        
         pedido.observaciones = document.getElementById('edit-pedido-admin-observaciones').value;
         
         localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
@@ -1890,5 +2386,32 @@ function handleEditarPedidoAdmin(event) {
         closeEditarPedidoAdminModal();
         loadPedidosAdmin();
         alert('Pedido actualizado exitosamente');
+    }
+}
+
+// Función para cancelar un pedido
+function cancelarPedido(origen) {
+    const pedidoId = origen === 'cliente' 
+        ? parseInt(document.getElementById('edit-pedido-cliente-id').value)
+        : parseInt(document.getElementById('edit-pedido-admin-id').value);
+    
+    if (confirm('¿Está seguro de que desea CANCELAR este pedido? Esta acción no se puede deshacer.')) {
+        const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+        const pedido = pedidos.find(p => p.id === pedidoId);
+        
+        if (pedido) {
+            pedido.estado = 'Cancelado';
+            localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+            
+            if (origen === 'cliente') {
+                closeEditarPedidoClienteModal();
+                loadMisPedidos();
+            } else {
+                closeEditarPedidoAdminModal();
+                loadPedidosAdmin();
+            }
+            
+            alert('Pedido cancelado exitosamente');
+        }
     }
 }
