@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Verizzia - Sinergia Comercial</title>
+    <link rel="stylesheet" href="../catalog-styles.css">
+</head>
+<body>
+    <a href="../../index.html#marcas" class="back-button">
+        ← Volver al Sitio Principal
+    </a>
+
+    <div class="catalog-header">
+        <h1>Catálogo Verizzia</h1>
+        <p>Descubre nuestra selección de pastas, legumbres y harinas premium</p>
+    </div>
+
+    <div id="products-container" class="products-grid"></div>
+
+    <div id="pagination-container" class="pagination"></div>
+
+    <script src="../catalog-pagination.js"></script>
+    <script>
+        // Productos Verizzia
+        const productosVerizzia = [
+            { nombre: 'Pastas Verizzia', descripcion: 'Pastas de calidad premium' },
+            { nombre: 'Legumbres Verizzia', descripcion: 'Legumbres seleccionadas' },
+            { nombre: 'Harinas Verizzia', descripcion: 'Harinas 000 y 0000' }
+        ];
+
+        // Inicializar catálogo con 12 productos por página
+        catalogo = new CatalogoPaginado(productosVerizzia, 12);
+        catalogo.renderizarProductos(1);
+    </script>
+</body>
+</html>

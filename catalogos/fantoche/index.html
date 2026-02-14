@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Fantoche - Sinergia Comercial</title>
+    <link rel="stylesheet" href="../catalog-styles.css">
+</head>
+<body>
+    <a href="../../index.html#marcas" class="back-button">
+        ← Volver al Sitio Principal
+    </a>
+
+    <div class="catalog-header">
+        <h1>Catálogo Fantoche</h1>
+        <p>Explora nuestra amplia variedad de alfajores, galletitas y dulces</p>
+    </div>
+
+    <div id="products-container" class="products-grid"></div>
+
+    <div id="pagination-container" class="pagination"></div>
+
+    <script src="../catalog-pagination.js"></script>
+    <script>
+        // Productos Fantoche
+        const productosFantoche = [
+            { nombre: 'Alfajor Triple Blanco 85g', descripcion: 'Alfajor relleno de dulce de leche y baño de merengue' },
+            { nombre: 'Alfajor Triple Negro 85g', descripcion: 'Alfajor relleno de dulce de leche y baño de repostería' },
+            { nombre: 'Simple Night 50g', descripcion: 'Alfajor sabor chocolate con dulce de leche y baño de repostería' },
+            { nombre: 'Simple Day 50g', descripcion: 'Alfajor relleno con dulce de leche cubierto con baño de merengue italiano' },
+            { nombre: 'XS Negro 25g', descripcion: 'Alfajor relleno de dulce de leche y baño de repostería' },
+            { nombre: 'XS Blanco 25g', descripcion: 'Alfajor relleno con dulce de leche cubierto con baño de merengue italiano' },
+            { nombre: 'XS Rosé 25g', descripcion: 'Alfajor con baño de merengue italiano sabor a Tutti frutti, frambuesa y limón' },
+            { nombre: 'Mini Cunitas Chocolate 150g', descripcion: 'Ideales para compartir - 6 unidades x paquete' },
+            { nombre: 'Mini Cunitas Blanco 150g', descripcion: 'Ideales para compartir - 6 unidades x paquete' },
+            { nombre: 'Alfajor Elixir Super Dulce de Leche 70g', descripcion: 'Alfajor Super Dulce de leche con Tapas bañadas en chocolate' },
+            { nombre: 'Alfajor Elixir Blanco 60g', descripcion: 'Alfajor con dulce de leche con cobertura de chocolate blanco' },
+            { nombre: 'Alfajor Elixir 70% Cacao 60g', descripcion: 'Alfajor con Dulce de leche con cobertura de chocolate 70% cacao' },
+            { nombre: 'Horóscopo 300g', descripcion: 'Galletitas para tortas de chocolate' },
+            { nombre: 'Horóscopo Tubo 240g', descripcion: 'Horóscopo en presentación tubo' },
+            { nombre: 'Pepas Fantoche 350g', descripcion: 'Galletitas con Membrillo' },
+            { nombre: 'Espumita 300g', descripcion: 'Galletitas con miel, ideales para acompañar el café' },
+            { nombre: 'Marmoladas 350g', descripcion: 'Un exquisito mix entre chocolate y vainilla' },
+            { nombre: 'Tapitas 350g', descripcion: 'Tapitas de alfajores con estilo tradicional' },
+            { nombre: 'Galletitas Yayitas 275g', descripcion: 'Vainilla y Chip de chocolate' },
+            { nombre: 'Yayita Black 250g', descripcion: 'Galletitas de chocolate negro con pepas de chocolate con leche' },
+            { nombre: 'Dulce de Leche 450g', descripcion: 'Ideal para comer a cucharadas, desayunos, rellenar alfajores ó postres' },
+            { nombre: 'Chocolatada Fantoche 200ml', descripcion: 'Con pack sustentable, para desayunos y meriendas' },
+            { nombre: 'Bizcochitos 200g', descripcion: 'Super crocantes y sabrosos. ¡Para acompañar tus mates!' },
+            { nombre: 'Butter Bakery 150g', descripcion: 'Galletitas dulces sabor manteca' },
+            { nombre: 'Choco Bakery 150g', descripcion: 'Galletitas dulces sabor chocolate' },
+            { nombre: 'Bocadito 28g', descripcion: 'Bocadito relleno con dulce de leche con baño de chocolate semiamargo' },
+            { nombre: 'Budín Sin Fruta 220g', descripcion: 'Budín simple, sin frutas' },
+            { nombre: 'Budín Con Fruta 220g', descripcion: 'Budín con frutas' },
+            { nombre: 'Budín Con Pepas de Chocolate 220g', descripcion: 'Budín con pepas de chocolate' },
+            { nombre: 'Budín Marmolado 220g', descripcion: 'Budín marmolado' },
+            { nombre: 'Pan Dulce Sin Frutas 500g', descripcion: 'Pan dulce simple, sin frutas' },
+            { nombre: 'Pan Dulce Marmolado 400g', descripcion: 'Pan dulce veneciano marmolado' },
+            { nombre: 'Panettone 600g', descripcion: 'Postre tradicional de Navidad en Milán' },
+            { nombre: 'Pan Dulce Con Pepas de Chocolate 400g', descripcion: 'Pan dulce con pepas de chocolate' },
+            { nombre: 'Pan Milanés Con Frutas y Masa Madre 500g', descripcion: 'Pan dulce milanés hecho con masa madre' },
+            { nombre: 'Pan Dulce Con Frutas 500g', descripcion: 'Pan dulce con frutas' },
+            { nombre: 'Pan Dulce Con Frutas 400g', descripcion: 'Pan dulce con frutas' },
+            { nombre: 'Almendras Bañadas de Chocolate 80g', descripcion: 'Almendras con cobertura de chocolate' },
+            { nombre: 'Pasas de Uva Bañadas de Chocolate 80g', descripcion: 'Pasas de uva con cobertura de chocolate' },
+            { nombre: 'Chispas de Chocolate', descripcion: 'Vainilla con chispas de chocolate' },
+            { nombre: 'Chispas de Chocolate Tubo', descripcion: 'Vainilla con chispas de chocolate en tubo' },
+            { nombre: 'Oblea Big 28g', descripcion: 'Oblea rellenas con crema de limón con baño de repostería semiamargo' },
+            { nombre: 'Chocodonas 120g', descripcion: 'Galletitas mini donas de limón y vainilla cubierto con baño de repostería' },
+            { nombre: 'Café Mood Booster', descripcion: 'Cápsulas de Café sabor a dulce de leche y vainilla. Intensidad 4. Estuche x 10' },
+            { nombre: 'Café Cloud Coffee', descripcion: 'Cápsulas de Café tradicional expreso. Intensidad 4. Estuche x 10' }
+        ];
+
+        // Inicializar catálogo con 12 productos por página
+        catalogo = new CatalogoPaginado(productosFantoche, 12);
+        catalogo.renderizarProductos(1);
+    </script>
+</body>
+</html>

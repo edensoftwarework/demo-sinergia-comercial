@@ -1,7 +1,189 @@
+// Catálogo completo de productos por marca
+const catalogoProductos = {
+    'Benevia': [
+        { nombre: 'Push Pop', descripcion: 'Caramelo con palo' },
+        { nombre: 'Push Pop Duo', descripcion: 'Caramelo doble sabor' },
+        { nombre: 'Ring Pop', descripcion: 'Caramelo en anillo' },
+        { nombre: 'Mentos', descripcion: 'Caramelos masticables' },
+        { nombre: 'FunDipperz', descripcion: 'Caramelo para mojar' },
+        { nombre: 'Spring Pop', descripcion: 'Caramelo con resorte' },
+        { nombre: 'GODipperz', descripcion: 'Caramelo líquido' },
+        { nombre: 'One Bite', descripcion: 'Chocolate de un bocado' },
+        { nombre: 'Barras de Chocolate', descripcion: 'Chocolate en barra' }
+    ],
+    'Verizzia': [
+        { nombre: 'Pastas Verizzia', descripcion: 'Pastas de calidad premium' },
+        { nombre: 'Legumbres Verizzia', descripcion: 'Legumbres seleccionadas' },
+        { nombre: 'Harinas Verizzia', descripcion: 'Harinas 000 y 0000' }
+    ],
+    'Fantoche': [
+        { nombre: 'Alfajor Triple Blanco 85g', descripcion: 'Alfajor relleno de dulce de leche y baño de merengue' },
+        { nombre: 'Alfajor Triple Negro 85g', descripcion: 'Alfajor relleno de dulce de leche y baño de repostería' },
+        { nombre: 'Simple Night 50g', descripcion: 'Alfajor sabor chocolate con dulce de leche y baño de repostería' },
+        { nombre: 'Simple Day 50g', descripcion: 'Alfajor relleno con dulce de leche cubierto con baño de merengue italiano' },
+        { nombre: 'XS Negro 25g', descripcion: 'Alfajor relleno de dulce de leche y baño de repostería' },
+        { nombre: 'XS Blanco 25g', descripcion: 'Alfajor relleno con dulce de leche cubierto con baño de merengue italiano' },
+        { nombre: 'XS Rosé 25g', descripcion: 'Alfajor con baño de merengue italiano sabor a Tutti frutti, frambuesa y limón' },
+        { nombre: 'Mini Cunitas Chocolate 150g', descripcion: 'Ideales para compartir - 6 unidades x paquete' },
+        { nombre: 'Mini Cunitas Blanco 150g', descripcion: 'Ideales para compartir - 6 unidades x paquete' },
+        { nombre: 'Alfajor Elixir Super Dulce de Leche 70g', descripcion: 'Alfajor Super Dulce de leche con Tapas bañadas en chocolate' },
+        { nombre: 'Alfajor Elixir Blanco 60g', descripcion: 'Alfajor con dulce de leche con cobertura de chocolate blanco' },
+        { nombre: 'Alfajor Elixir 70% Cacao 60g', descripcion: 'Alfajor con Dulce de leche con cobertura de chocolate 70% cacao' },
+        { nombre: 'Horóscopo 300g', descripcion: 'Galletitas para tortas de chocolate' },
+        { nombre: 'Horóscopo Tubo 240g', descripcion: 'Horóscopo en presentación tubo' },
+        { nombre: 'Pepas Fantoche 350g', descripcion: 'Galletitas con Membrillo' },
+        { nombre: 'Espumita 300g', descripcion: 'Galletitas con miel, ideales para acompañar el café' },
+        { nombre: 'Marmoladas 350g', descripcion: 'Un exquisito mix entre chocolate y vainilla' },
+        { nombre: 'Tapitas 350g', descripcion: 'Tapitas de alfajores con estilo tradicional' },
+        { nombre: 'Galletitas Yayitas 275g', descripcion: 'Vainilla y Chip de chocolate' },
+        { nombre: 'Yayita Black 250g', descripcion: 'Galletitas de chocolate negro con pepas de chocolate con leche' },
+        { nombre: 'Dulce de Leche 450g', descripcion: 'Ideal para comer a cucharadas, desayunos, rellenar alfajores ó postres' },
+        { nombre: 'Chocolatada Fantoche 200ml', descripcion: 'Con pack sustentable, para desayunos y meriendas' },
+        { nombre: 'Bizcochitos 200g', descripcion: 'Super crocantes y sabrosos. ¡Para acompañar tus mates!' },
+        { nombre: 'Butter Bakery 150g', descripcion: 'Galletitas dulces sabor manteca' },
+        { nombre: 'Choco Bakery 150g', descripcion: 'Galletitas dulces sabor chocolate' },
+        { nombre: 'Bocadito 28g', descripcion: 'Bocadito relleno con dulce de leche con baño de chocolate semiamargo' },
+        { nombre: 'Budín Sin Fruta 220g', descripcion: 'Budín simple, sin frutas' },
+        { nombre: 'Budín Con Fruta 220g', descripcion: 'Budín con frutas' },
+        { nombre: 'Budín Con Pepas de Chocolate 220g', descripcion: 'Budín con pepas de chocolate' },
+        { nombre: 'Budín Marmolado 220g', descripcion: 'Budín marmolado' },
+        { nombre: 'Pan Dulce Sin Frutas 500g', descripcion: 'Pan dulce simple, sin frutas' },
+        { nombre: 'Pan Dulce Marmolado 400g', descripcion: 'Pan dulce veneciano marmolado' },
+        { nombre: 'Panettone 600g', descripcion: 'Postre tradicional de Navidad en Milán' },
+        { nombre: 'Pan Dulce Con Pepas de Chocolate 400g', descripcion: 'Pan dulce con pepas de chocolate' },
+        { nombre: 'Pan Milanés Con Frutas y Masa Madre 500g', descripcion: 'Pan dulce milanés hecho con masa madre' },
+        { nombre: 'Pan Dulce Con Frutas 500g', descripcion: 'Pan dulce con frutas' },
+        { nombre: 'Pan Dulce Con Frutas 400g', descripcion: 'Pan dulce con frutas' },
+        { nombre: 'Almendras Bañadas de Chocolate 80g', descripcion: 'Almendras con cobertura de chocolate' },
+        { nombre: 'Pasas de Uva Bañadas de Chocolate 80g', descripcion: 'Pasas de uva con cobertura de chocolate' },
+        { nombre: 'Chispas de Chocolate', descripcion: 'Vainilla con chispas de chocolate' },
+        { nombre: 'Chispas de Chocolate Tubo', descripcion: 'Vainilla con chispas de chocolate en tubo' },
+        { nombre: 'Oblea Big 28g', descripcion: 'Oblea rellenas con crema de limón con baño de repostería semiamargo' },
+        { nombre: 'Chocodonas 120g', descripcion: 'Galletitas mini donas de limón y vainilla cubierto con baño de repostería' },
+        { nombre: 'Café Mood Booster', descripcion: 'Cápsulas de Café sabor a dulce de leche y vainilla. Intensidad 4. Estuche x 10' },
+        { nombre: 'Café Cloud Coffee', descripcion: 'Cápsulas de Café tradicional expreso. Intensidad 4. Estuche x 10' }
+    ],
+    'Sweet (Open Candy)': [
+        { nombre: 'Tribala Frambuesa 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Frutimania Crunch Frambuesa 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Frutimania Crunch Frutilla 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Frutimania Crunch Uva 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Frutimania Crunch Yogur de Frutilla 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Masticable Métrico Cremosito 24cm', descripcion: 'Caramelos masticables - 24 unidades' },
+        { nombre: 'Masticable Open Candy Nitro 24cm', descripcion: 'Caramelos masticables - 24 unidades' },
+        { nombre: 'Masticable Open Candy Métrico Frutilla 24cm', descripcion: 'Caramelos masticables - 24 unidades' },
+        { nombre: 'Masticable Open Candy Métrico Tutti Frutti 24cm', descripcion: 'Caramelos masticables - 24 unidades' },
+        { nombre: 'Tribala Frutilla 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Tribala 2 Frutas 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Tribala Uva 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Masticable Frutomila Relleno 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+        { nombre: 'Masticable Comefuego Surtido', descripcion: 'Caramelos - 50 unidades' },
+        { nombre: 'Drink Candy', descripcion: 'Caramelos líquidos' },
+        { nombre: 'Chupetín Blong Relleno Chicle Ácido 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+        { nombre: 'Chupetín Blong Relleno Chicle Blueberry 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+        { nombre: 'Chupetín Blong Relleno Chicle Cereza 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+        { nombre: 'Chupetín Blong Relleno Chicle Frutilla 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+        { nombre: 'Chupetín Masticable Fierita Lengua Azul 12g', descripcion: 'Chupetines masticables - 50 unidades' },
+        { nombre: 'Chupetín Masticable Fierita Super Tatoo Menta 12g', descripcion: 'Chupetines masticables - 50 unidades' },
+        { nombre: 'Chupetín Masticable Cremosito 12g', descripcion: 'Sabor frutilla y crema - 50 unidades' },
+        { nombre: 'Chupetín Masticable Fierita Nitro 12g', descripcion: 'Chupetines masticables - 50 unidades' },
+        { nombre: 'Chupetín Open Candy Emo 5g', descripcion: 'Chupetines varios - 80 unidades' },
+        { nombre: 'Chupetín Open Candy Patita 4g', descripcion: 'Chupetines varios - 100 unidades' },
+        { nombre: 'Bel Nuevo Estuche Surtido', descripcion: 'Chocolates rellenos - 20 unidades' },
+        { nombre: 'Bocadito Bel Yogur/Leche/Frutilla/Chocolate', descripcion: 'Bombones y bocaditos - 50 unidades' },
+        { nombre: 'Barrita Bel Leche Condensada 13g', descripcion: 'Bombones - 36 unidades' },
+        { nombre: 'Barrita Bel Moranguete Frutilla 13g', descripcion: 'Bombones - 36 unidades' },
+        { nombre: 'Barrita Bel Yogurte 13g', descripcion: 'Bombones - 36 unidades' },
+        { nombre: 'Moneda Chocolate Bel 370g', descripcion: 'Monedas de chocolate - 100 unidades' },
+        { nombre: 'Trento Avellana 32g', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Trento Chocolate Blanco', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Trento Chocolate', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Trento Dark Blanco 32g', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Trento Momentos 192g', descripcion: 'Chocolates rellenos surtidos' },
+        { nombre: 'Trento Crema 32g', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Trento Massimo Chocolate 30g', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Trento Massimo Chocolate Blanco 30g', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Trento Massimo Crema Maní 30g', descripcion: 'Chocolates rellenos - 16 unidades' },
+        { nombre: 'Chicle Fierita Open Candy Menta 3g', descripcion: 'Chicles globo - 100 unidades' },
+        { nombre: 'Chicle Fierita Open Candy Tutti 3g', descripcion: 'Chicles globo - 100 unidades' },
+        { nombre: 'Chicle Fierita Open Candy Frutilla 3g', descripcion: 'Chicles globo - 100 unidades' },
+        { nombre: 'Chicle Fierita Open Candy Banana 3g', descripcion: 'Chicles globo - 100 unidades' },
+        { nombre: 'Chicle Fierita Open Candy Uva 3g', descripcion: 'Chicles globo - 100 unidades' },
+        { nombre: 'Chicle Fierita Recargado Menta', descripcion: 'Chicles confitados - 50 unidades' },
+        { nombre: 'Chicle Fierita Recargado Tutti Fruti', descripcion: 'Chicles confitados - 50 unidades' },
+        { nombre: 'Chicle Fierita Recargado Uva', descripcion: 'Chicles confitados - 50 unidades' },
+        { nombre: 'Chicle Fierita Recargado Frutilla', descripcion: 'Chicles confitados - 50 unidades' },
+        { nombre: 'Chicle Fierita Recargado Banana', descripcion: 'Chicles confitados - 50 unidades' },
+        { nombre: 'Goma Fierita Button 500g', descripcion: 'Gomitas' },
+        { nombre: 'Goma Fierita Clásica 500g', descripcion: 'Gomitas' },
+        { nombre: 'Goma Fierita Corazón 500g', descripcion: 'Gomitas' },
+        { nombre: 'Goma Fierita Gajos 500g', descripcion: 'Gomitas' },
+        { nombre: 'Goma Fierita Yogurt 500g', descripcion: 'Gomitas' },
+        { nombre: 'Aros de Fresa Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Bananas Fini 250g', descripcion: 'Gomitas' },
+        { nombre: 'Besos Fini 250g', descripcion: 'Gomitas' },
+        { nombre: 'Besos Fresa Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Dentadura Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Gusanos Fini 250g', descripcion: 'Gomitas' },
+        { nombre: 'Lombrices Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Lombrices Fini Ácidas 500g', descripcion: 'Gomitas' },
+        { nombre: 'Marshmallow Alborada Fini 250g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallow Alborada Fini 500g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallows Corazón Fini 250g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallows Corazón Fini 500g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallows Flor Fini 250g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallows Flor Fini 500g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallows Fresas Fini 500g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallows Twist Fini 250g', descripcion: 'Marshmallows' },
+        { nombre: 'Marshmallows Twist Fini 500g', descripcion: 'Marshmallows' },
+        { nombre: 'Mini Besos Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Mini Minhoca Cítrica Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Mini Moras Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Mini Osos Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Mini Plátanos Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Moras Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Osos Fini 250g', descripcion: 'Gomitas' },
+        { nombre: 'Osos Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Plátanos Fini 500g', descripcion: 'Gomitas' },
+        { nombre: 'Tubes Fini Fresa 240g', descripcion: 'Regaliz' },
+        { nombre: 'Tubes Fini Fresa Cítrico 240g', descripcion: 'Regaliz' },
+        { nombre: 'Tubes Fini Twister 240g', descripcion: 'Regaliz' },
+        { nombre: 'Tubes Fini Twister Cítrico 240g', descripcion: 'Regaliz' },
+        { nombre: 'Estrellitas Frutales', descripcion: 'Pastillas - 100 unidades' }
+    ],
+    'Lipo': [
+        { nombre: 'Caramelos de Miel Lipo (Rellenos) 800g', descripcion: 'Caramelos de miel rellenos sin TACC' },
+        { nombre: 'Caramelos Lipo Dor (Menta con Chocolate) 907g', descripcion: 'Caramelos de menta con chocolate' },
+        { nombre: 'Caramelos Gajitos Ácidos de Lipo 484g', descripcion: 'Caramelos ácidos sin TACC' },
+        { nombre: 'Chupetines Wamis Mágico de Lipo', descripcion: 'Chupetines sin TACC - Bolsa x 50 unidades' },
+        { nombre: 'Chupetines Lipo Wamis Sabor Dulce de Leche', descripcion: 'Chupetines sin TACC - Bolsa x 50 unidades' },
+        { nombre: 'Caramelos de Menta de Lipo 907g', descripcion: 'Caramelos de menta sin TACC' },
+        { nombre: 'Caramelos de Cereza Azucarados de Lipo 907g', descripcion: 'Caramelos de cereza sin TACC' },
+        { nombre: 'Caramelos Ce Leche "Dulce de Leche" 907g', descripcion: 'Caramelos sin TACC de Lipo' },
+        { nombre: 'Chupetines Frutales Wamis', descripcion: 'Chupetines sin TACC - Bolsa x 50 unidades' },
+        { nombre: 'Caramelo Praliné de Lipo 907g', descripcion: 'Caramelos Praliné' },
+        { nombre: 'Caramelos Superácidos de Lipo 907g', descripcion: 'Caramelos superácidos sin TACC' },
+        { nombre: 'Caramelos Candy 10 de Lipo 810g', descripcion: 'Caramelos símil Media Hora sin TACC' },
+        { nombre: 'Caramelos Viena Rellenos de Lipo 907g', descripcion: 'Caramelos rellenos sin TACC' }
+    ],
+    'Cerealko': [
+        { nombre: 'Arrocitas Galletas de Arroz Cuadradas', descripcion: 'Galletas de Arroz Integral - Reemplazá el pan' },
+        { nombre: 'MiniArrocitas Snacks de Arroz', descripcion: 'Snacks saludables ideal para comer a cualquier hora' },
+        { nombre: 'Nachos Macritas Snacks de Maíz', descripcion: 'Tortillas a base de cereales integrales horneadas y fritas' },
+        { nombre: 'Arrocitas Tostaditas de Arroz Integral', descripcion: 'Nuevos deliciosos snack de arroz integral libres de grasas trans' },
+        { nombre: 'Arrocitas Superbarra de Arroz', descripcion: 'Golosina saludable mucho más grande y con más sabor' },
+        { nombre: 'MiniArrocitas Alfajorcitos de Arroz', descripcion: 'Golosina saludable sin TACC con tan solo 58 kCal' },
+        { nombre: 'Macrobiótica Galletas Discos de Arroz', descripcion: 'Tradicional línea de Galletas de Arroz Integral' }
+    ]
+};
+
 // Inicialización de datos de prueba en localStorage
 function initializeDemoData() {
     if (!localStorage.getItem('sinergia_initialized')) {
-        // Usuarios (admin y clientes)
+        // Guardar catálogo de productos
+        localStorage.setItem('sinergia_catalogo', JSON.stringify(catalogoProductos));
+        
+        // Usuarios (admin y clientes) - ahora con 12 clientes
         const usuarios = [
             {
                 id: 1,
@@ -82,69 +264,194 @@ function initializeDemoData() {
                 telefono: '381-5554567',
                 aprobado: true,
                 fechaRegistro: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString() // 4 meses atrás
+            },
+            {
+                id: 8,
+                username: 'cliente7',
+                password: 'pass123',
+                tipo: 'cliente',
+                nombre: 'Diego Morales',
+                empresa: 'Supermercado del Valle',
+                email: 'diego@supervalle.com',
+                telefono: '381-6667890',
+                aprobado: true,
+                fechaRegistro: new Date(Date.now() - 200 * 24 * 60 * 60 * 1000).toISOString() // 6.5 meses atrás
+            },
+            {
+                id: 9,
+                username: 'cliente8',
+                password: 'pass123',
+                tipo: 'cliente',
+                nombre: 'Sofía Ramírez',
+                empresa: 'Distribuidora El Progreso',
+                email: 'sofia@elprogreso.com',
+                telefono: '381-7778901',
+                aprobado: true,
+                fechaRegistro: new Date(Date.now() - 150 * 24 * 60 * 60 * 1000).toISOString() // 5 meses atrás
+            },
+            {
+                id: 10,
+                username: 'cliente9',
+                password: 'pass123',
+                tipo: 'cliente',
+                nombre: 'Fernando López',
+                empresa: 'Mayorista San Martín',
+                email: 'fernando@sanmartin.com',
+                telefono: '381-8889012',
+                aprobado: true,
+                fechaRegistro: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString() // 2 meses atrás
+            },
+            {
+                id: 11,
+                username: 'cliente10',
+                password: 'pass123',
+                tipo: 'cliente',
+                nombre: 'Patricia Díaz',
+                empresa: 'Comercial La Unión',
+                email: 'patricia@launion.com',
+                telefono: '381-9990123',
+                aprobado: true,
+                fechaRegistro: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString() // 1 mes atrás
+            },
+            {
+                id: 12,
+                username: 'cliente11',
+                password: 'pass123',
+                tipo: 'cliente',
+                nombre: 'Ricardo Torres',
+                empresa: 'Almacén Mayorista del Norte',
+                email: 'ricardo@almacennorte.com',
+                telefono: '381-1112234',
+                aprobado: true,
+                fechaRegistro: new Date(Date.now() - 100 * 24 * 60 * 60 * 1000).toISOString() // 3.3 meses atrás
             }
         ];
 
-        // Pedidos con diferentes fechas
+        // Pedidos con diferentes fechas y más variedad
         const pedidos = [
             {
                 id: 1,
                 clienteId: 2,
                 clienteNombre: 'Juan Pérez',
-                marca: 'Marca 1',
-                producto: 'Galletas surtidas x 500g',
+                marca: 'Fantoche',
+                producto: 'Alfajor Triple Blanco 85g',
                 cantidad: 50,
+                unidad: 'cajas',
                 observaciones: 'Descuento 5% por volumen',
-                fecha: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 días atrás
+                fecha: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'enviado'
             },
             {
                 id: 2,
                 clienteId: 2,
                 clienteNombre: 'Juan Pérez',
-                marca: 'Marca 3',
-                producto: 'Alfajores x 12 unidades',
+                marca: 'Sweet (Open Candy)',
+                producto: 'Tribala Frutilla 500g',
                 cantidad: 100,
+                unidad: 'unidades',
                 observaciones: '',
-                fecha: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(), // 45 días atrás
+                fecha: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'enviado'
             },
             {
                 id: 3,
                 clienteId: 3,
                 clienteNombre: 'María González',
-                marca: 'Marca 2',
-                producto: 'Cereales 1kg',
+                marca: 'Cerealko',
+                producto: 'Arrocitas Galletas de Arroz Cuadradas',
                 cantidad: 75,
+                unidad: 'cajas',
                 observaciones: 'Entrega urgente',
-                fecha: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 días atrás
+                fecha: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'enviado'
             },
             {
                 id: 4,
                 clienteId: 3,
                 clienteNombre: 'María González',
-                marca: 'Marca 5',
-                producto: 'Dulce de leche 400g',
+                marca: 'Fantoche',
+                producto: 'Dulce de Leche 450g',
                 cantidad: 120,
+                unidad: 'unidades',
                 observaciones: '',
-                fecha: new Date(Date.now() - 75 * 24 * 60 * 60 * 1000).toISOString(), // 75 días atrás
+                fecha: new Date(Date.now() - 75 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'enviado'
             },
             {
                 id: 5,
                 clienteId: 4,
                 clienteNombre: 'Carlos Rodríguez',
-                marca: 'Marca 4',
-                producto: 'Pan dulce 500g',
+                marca: 'Fantoche',
+                producto: 'Pan Dulce Con Frutas 500g',
                 cantidad: 30,
+                unidad: 'cajas',
                 observaciones: 'Para fin de año',
-                fecha: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(), // 20 días atrás
+                fecha: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'enviado'
+            },
+            {
+                id: 6,
+                clienteId: 8,
+                clienteNombre: 'Diego Morales',
+                marca: 'Benevia',
+                producto: 'Mentos',
+                cantidad: 200,
+                unidad: 'paquetes',
+                observaciones: 'Enviar a sucursal principal',
+                fecha: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'enviado'
+            },
+            {
+                id: 7,
+                clienteId: 9,
+                clienteNombre: 'Sofía Ramírez',
+                marca: 'Lipo',
+                producto: 'Caramelos de Miel Lipo (Rellenos) 800g',
+                cantidad: 80,
+                unidad: 'bolsas',
+                observaciones: '',
+                fecha: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'enviado'
+            },
+            {
+                id: 8,
+                clienteId: 10,
+                clienteNombre: 'Fernando López',
+                marca: 'Verizzia',
+                producto: 'Pastas Verizzia',
+                cantidad: 150,
+                unidad: 'cajas',
+                observaciones: 'Cliente mayorista - precio especial',
+                fecha: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'enviado'
+            },
+            {
+                id: 9,
+                clienteId: 11,
+                clienteNombre: 'Patricia Díaz',
+                marca: 'Sweet (Open Candy)',
+                producto: 'Trento Chocolate 32g',
+                cantidad: 60,
+                unidad: 'displays',
+                observaciones: '',
+                fecha: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'enviado'
+            },
+            {
+                id: 10,
+                clienteId: 12,
+                clienteNombre: 'Ricardo Torres',
+                marca: 'Fantoche',
+                producto: 'Galletitas Yayitas 275g',
+                cantidad: 90,
+                unidad: 'cajas',
+                observaciones: 'Reposición de stock',
+                fecha: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'enviado'
             }
         ];
 
-        // Vencimientos de facturas
+        // Vencimientos de facturas - más ejemplos con diferentes estados
         const vencimientos = [
             {
                 id: 1,
@@ -152,7 +459,8 @@ function initializeDemoData() {
                 clienteNombre: 'Juan Pérez',
                 factura: 'FC-001-00123',
                 monto: 25000,
-                fechaVencimiento: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString() // Vence en 5 días
+                fechaVencimiento: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pendiente' // Vence en 5 días
             },
             {
                 id: 2,
@@ -160,7 +468,8 @@ function initializeDemoData() {
                 clienteNombre: 'María González',
                 monto: 18500,
                 factura: 'FC-001-00124',
-                fechaVencimiento: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString() // Vence en 2 días
+                fechaVencimiento: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pendiente' // Vence en 2 días
             },
             {
                 id: 3,
@@ -168,7 +477,55 @@ function initializeDemoData() {
                 clienteNombre: 'Carlos Rodríguez',
                 factura: 'FC-001-00125',
                 monto: 32000,
-                fechaVencimiento: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString() // Vence en 15 días
+                fechaVencimiento: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pendiente' // Vence en 15 días
+            },
+            {
+                id: 4,
+                clienteId: 8,
+                clienteNombre: 'Diego Morales',
+                factura: 'FC-001-00126',
+                monto: 45000,
+                fechaVencimiento: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+                fechaPago: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pagada' // Pagada hace 22 días
+            },
+            {
+                id: 5,
+                clienteId: 9,
+                clienteNombre: 'Sofía Ramírez',
+                factura: 'FC-001-00127',
+                monto: 27500,
+                fechaVencimiento: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pendiente' // Vence en 8 días
+            },
+            {
+                id: 6,
+                clienteId: 10,
+                clienteNombre: 'Fernando López',
+                factura: 'FC-001-00128',
+                monto: 38900,
+                fechaVencimiento: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
+                fechaPago: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pagada' // Pagada hace 50 días
+            },
+            {
+                id: 7,
+                clienteId: 11,
+                clienteNombre: 'Patricia Díaz',
+                factura: 'FC-001-00129',
+                monto: 21000,
+                fechaVencimiento: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pendiente' // Vence en 3 días
+            },
+            {
+                id: 8,
+                clienteId: 12,
+                clienteNombre: 'Ricardo Torres',
+                factura: 'FC-001-00130',
+                monto: 52000,
+                fechaVencimiento: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pendiente' // Vence en 20 días
             }
         ];
 
@@ -386,8 +743,8 @@ function loadAlertas() {
         }
     });
 
-    // Alertas de vencimientos próximos
-    vencimientos.forEach(venc => {
+    // Alertas de vencimientos próximos (solo facturas pendientes)
+    vencimientos.filter(v => v.estado !== 'pagada').forEach(venc => {
         const diasHastaVencimiento = Math.floor((new Date(venc.fechaVencimiento) - Date.now()) / (1000 * 60 * 60 * 24));
 
         if (diasHastaVencimiento <= diasAlertaVencimiento && diasHastaVencimiento >= 0) {
@@ -508,17 +865,26 @@ function loadPedidosAdmin() {
     // Ordenar por fecha descendente
     pedidos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
-    let html = '<table><thead><tr><th>Fecha</th><th>Cliente</th><th>Marca</th><th>Producto</th><th>Cantidad</th><th>Observaciones</th></tr></thead><tbody>';
+    let html = '<table><thead><tr><th>Código</th><th>Fecha</th><th>Cliente</th><th>Marca</th><th>Producto</th><th>Cantidad</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
 
     pedidos.forEach(pedido => {
+        const codigoPedido = pedido.pedidoId || `PED-${pedido.id}`;
+        const estadoActual = pedido.estado || 'Pendiente';
         html += `
             <tr>
+                <td><strong>${codigoPedido}</strong></td>
                 <td>${formatDate(pedido.fecha)}</td>
                 <td>${pedido.clienteNombre}</td>
                 <td>${pedido.marca}</td>
                 <td>${pedido.producto}</td>
-                <td>${pedido.cantidad}</td>
-                <td>${pedido.observaciones || '-'}</td>
+                <td>${pedido.cantidad} ${pedido.unidad || 'unidades'}</td>
+                <td><span class="status-badge status-${estadoActual.toLowerCase().replace(' ', '-')}">${estadoActual}</span></td>
+                <td>
+                    ${estadoActual === 'Pendiente' ? `<button class="btn-action" onclick="cambiarEstadoPedido(${pedido.id}, 'En Proceso')">Procesar</button>` : ''}
+                    ${estadoActual === 'En Proceso' ? `<span style="color: #667eea; font-weight: 600;">En procesamiento</span>` : ''}
+                    ${estadoActual === 'Facturado' ? `<span style="color: #d4983d; font-weight: 600;">Facturado</span>` : ''}
+                    ${estadoActual === 'Pagado' ? `<span style="color: #28a745; font-weight: 600;">✓ Completado</span>` : ''}
+                </td>
             </tr>
         `;
     });
@@ -548,6 +914,10 @@ function handleCargarVencimiento(event) {
     const usuarios = JSON.parse(localStorage.getItem('sinergia_usuarios'));
     const cliente = usuarios.find(u => u.id === clienteId);
 
+    // Buscar pedidos "En Proceso" del cliente para vincular
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedidoEnProceso = pedidos.find(p => p.clienteId === clienteId && p.estado === 'En Proceso');
+
     const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
     const nuevoVencimiento = {
         id: vencimientos.length + 1,
@@ -555,13 +925,23 @@ function handleCargarVencimiento(event) {
         clienteNombre: cliente.nombre,
         factura: document.getElementById('venc-factura').value,
         monto: parseFloat(document.getElementById('venc-monto').value),
-        fechaVencimiento: document.getElementById('venc-fecha').value
+        fechaVencimiento: document.getElementById('venc-fecha').value,
+        estado: 'pendiente',
+        pedidoId: pedidoEnProceso ? pedidoEnProceso.pedidoId : null
     };
 
     vencimientos.push(nuevoVencimiento);
     localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
 
-    alert('Vencimiento cargado exitosamente');
+    // Si hay pedido vinculado, cambiar su estado a "Facturado"
+    if (pedidoEnProceso) {
+        pedidoEnProceso.estado = 'Facturado';
+        localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+        alert('Vencimiento cargado y vinculado al pedido ' + pedidoEnProceso.pedidoId);
+    } else {
+        alert('Vencimiento cargado exitosamente');
+    }
+    
     document.getElementById('vencimientos-form').reset();
     loadVencimientosList();
 }
@@ -575,15 +955,28 @@ function loadVencimientosList() {
         return;
     }
 
-    let html = '<h3>Vencimientos Registrados</h3><table><thead><tr><th>Cliente</th><th>Factura</th><th>Monto</th><th>Vencimiento</th><th>Estado</th></tr></thead><tbody>';
+    let html = '<h3>Vencimientos Registrados</h3><table><thead><tr><th>Cliente</th><th>Factura</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
 
     vencimientos.forEach(venc => {
         const diasHasta = Math.floor((new Date(venc.fechaVencimiento) - Date.now()) / (1000 * 60 * 60 * 24));
-        let estado = '<span class="status-badge status-aprobado">Al día</span>';
-        if (diasHasta < 0) {
-            estado = '<span class="status-badge status-pendiente">Vencido</span>';
-        } else if (diasHasta <= 7) {
-            estado = '<span class="status-badge status-pendiente">Por vencer</span>';
+        let estado = '';
+        let accionBtn = '';
+        
+        if (venc.estado === 'pagada') {
+            estado = `<span class="status-badge status-aprobado">✓ Pagada</span>`;
+            accionBtn = `<span class="text-muted" style="font-size: 0.85em;">Pagada el ${formatDate(venc.fechaPago)}</span>`;
+        } else {
+            if (diasHasta < 0) {
+                estado = '<span class="status-badge status-pendiente">Vencida</span>';
+            } else if (diasHasta <= 7) {
+                estado = '<span class="status-badge status-pendiente">Por vencer</span>';
+            } else {
+                estado = '<span class="status-badge status-enviado">Pendiente</span>';
+            }
+            accionBtn = `
+                <button class="btn-small btn-success" onclick="marcarComoPagada(${venc.id})">Marcar Pagada</button>
+                <button class="btn-small btn-warning" onclick="solicitarEditarFactura(${venc.id})">Editar</button>
+            `;
         }
 
         html += `
@@ -593,12 +986,119 @@ function loadVencimientosList() {
                 <td>$${venc.monto.toLocaleString()}</td>
                 <td>${formatDate(venc.fechaVencimiento)}</td>
                 <td>${estado}</td>
+                <td>${accionBtn}</td>
             </tr>
         `;
     });
 
     html += '</tbody></table>';
     container.innerHTML = html;
+}
+
+// Función para marcar factura como pagada
+function marcarComoPagada(vencimientoId) {
+    const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
+    const venc = vencimientos.find(v => v.id === vencimientoId);
+    
+    if (venc) {
+        venc.estado = 'pagada';
+        venc.fechaPago = new Date().toISOString();
+        localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
+        
+        // Actualizar estado del pedido vinculado a "Pagado"
+        if (venc.pedidoId) {
+            const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+            const pedido = pedidos.find(p => p.pedidoId === venc.pedidoId);
+            if (pedido) {
+                pedido.estado = 'Pagado';
+                localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+            }
+        }
+        
+        loadVencimientosList();
+        loadAlertas(); // Actualizar alertas también
+        alert('Factura marcada como pagada exitosamente');
+    }
+}
+
+// Funciones para editar facturas
+function solicitarEditarFactura(vencimientoId) {
+    document.getElementById('edit-venc-id').value = vencimientoId;
+    document.getElementById('auth-edit-modal').style.display = 'flex';
+}
+
+function closeAuthEditModal() {
+    document.getElementById('auth-edit-modal').style.display = 'none';
+    document.getElementById('auth-edit-form').reset();
+}
+
+function handleAuthEdit(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById('auth-username').value;
+    const password = document.getElementById('auth-password').value;
+    
+    // Verificar credenciales de administrador
+    if (username !== currentUser.username || password !== currentUser.password) {
+        alert('Credenciales incorrectas');
+        return;
+    }
+    
+    const vencId = parseInt(document.getElementById('edit-venc-id').value);
+    closeAuthEditModal();
+    mostrarFormularioEditarFactura(vencId);
+}
+
+function mostrarFormularioEditarFactura(vencimientoId) {
+    const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
+    const venc = vencimientos.find(v => v.id === vencimientoId);
+    
+    if (venc) {
+        document.getElementById('edit-factura-id').value = venc.id;
+        document.getElementById('edit-factura-numero').value = venc.factura;
+        document.getElementById('edit-factura-monto').value = venc.monto;
+        document.getElementById('edit-factura-fecha').value = venc.fechaVencimiento.split('T')[0];
+        document.getElementById('edit-factura-modal').style.display = 'flex';
+    }
+}
+
+function closeEditFacturaModal() {
+    document.getElementById('edit-factura-modal').style.display = 'none';
+    document.getElementById('edit-factura-form').reset();
+}
+
+function handleEditFactura(event) {
+    event.preventDefault();
+    
+    const vencId = parseInt(document.getElementById('edit-factura-id').value);
+    const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
+    const venc = vencimientos.find(v => v.id === vencId);
+    
+    if (venc) {
+        venc.factura = document.getElementById('edit-factura-numero').value;
+        venc.monto = parseFloat(document.getElementById('edit-factura-monto').value);
+        venc.fechaVencimiento = document.getElementById('edit-factura-fecha').value;
+        
+        localStorage.setItem('sinergia_vencimientos', JSON.stringify(vencimientos));
+        
+        closeEditFacturaModal();
+        loadVencimientosList();
+        loadAlertas();
+        alert('Factura actualizada exitosamente');
+    }
+}
+
+// Función para cambiar estado de pedido
+function cambiarEstadoPedido(pedidoId, nuevoEstado) {
+    const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const pedido = pedidos.find(p => p.id === pedidoId);
+    
+    if (pedido) {
+        pedido.estado = nuevoEstado;
+        localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
+        loadPedidosAdmin();
+        alert(`Estado del pedido actualizado a: ${nuevoEstado}`);
+    }
 }
 
 // Portal Cliente
@@ -629,23 +1129,32 @@ function handleNuevoPedido(event) {
     event.preventDefault();
 
     const pedidos = JSON.parse(localStorage.getItem('sinergia_pedidos'));
+    const productoSelect = document.getElementById('pedido-producto');
+    const productoNombre = productoSelect.options[productoSelect.selectedIndex].text;
+    
+    // Generar ID único para el pedido
+    const pedidoId = 'PED-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+    
     const nuevoPedido = {
         id: pedidos.length + 1,
+        pedidoId: pedidoId,
         clienteId: currentUser.id,
         clienteNombre: currentUser.nombre,
         marca: document.getElementById('pedido-marca').value,
-        producto: document.getElementById('pedido-producto').value,
+        producto: productoNombre,
         cantidad: parseInt(document.getElementById('pedido-cantidad').value),
+        unidad: document.getElementById('pedido-unidad').value,
         observaciones: document.getElementById('pedido-observaciones').value,
         fecha: new Date().toISOString(),
-        estado: 'enviado'
+        estado: 'Pendiente'
     };
 
     pedidos.push(nuevoPedido);
     localStorage.setItem('sinergia_pedidos', JSON.stringify(pedidos));
 
-    alert('Pedido enviado exitosamente');
+    alert('Pedido enviado exitosamente. Código de seguimiento: ' + pedidoId);
     document.getElementById('pedido-form').reset();
+    document.getElementById('pedido-producto').disabled = true;
 }
 
 function loadMisPedidos() {
@@ -663,15 +1172,17 @@ function loadMisPedidos() {
 
     let html = '';
     misPedidos.forEach(pedido => {
+        const estadoDisplay = pedido.estado || 'Pendiente';
+        const codigoPedido = pedido.pedidoId || `PED-${pedido.id}`;
         html += `
             <div class="card">
-                <h3>Pedido #${pedido.id}</h3>
+                <h3>Pedido ${codigoPedido}</h3>
                 <p><strong>Fecha:</strong> ${formatDate(pedido.fecha)}</p>
                 <p><strong>Marca:</strong> ${pedido.marca}</p>
                 <p><strong>Producto:</strong> ${pedido.producto}</p>
-                <p><strong>Cantidad:</strong> ${pedido.cantidad}</p>
+                <p><strong>Cantidad:</strong> ${pedido.cantidad} ${pedido.unidad || 'unidades'}</p>
                 <p><strong>Observaciones:</strong> ${pedido.observaciones || 'Ninguna'}</p>
-                <p><strong>Estado:</strong> <span class="status-badge status-${pedido.estado}">${pedido.estado}</span></p>
+                <p><strong>Estado:</strong> <span class="status-badge status-${estadoDisplay.toLowerCase().replace(' ', '-')}">${estadoDisplay}</span></p>
             </div>
         `;
     });
@@ -745,4 +1256,87 @@ document.addEventListener('DOMContentLoaded', function() {
     // Observar elementos animables
     const animatedElements = document.querySelectorAll('.service-row, .brand-item, .cta-card');
     animatedElements.forEach(el => observer.observe(el));
+    
+    // Cargar catálogo de productos al inicio
+    if (document.getElementById('catalog-products')) {
+        filterProducts('todas');
+    }
 });
+
+// Función para cargar productos según marca seleccionada en formulario
+function loadProductsByMarca() {
+    const marca = document.getElementById('pedido-marca').value;
+    const productoSelect = document.getElementById('pedido-producto');
+    
+    if (!marca) {
+        productoSelect.disabled = true;
+        productoSelect.innerHTML = '<option value="">-- Primero seleccione una marca --</option>';
+        return;
+    }
+    
+    const productos = catalogoProductos[marca] || [];
+    
+    productoSelect.disabled = false;
+    productoSelect.innerHTML = '<option value="">-- Seleccione un producto --</option>';
+    
+    productos.forEach(producto => {
+        const option = document.createElement('option');
+        option.value = producto.nombre;
+        option.textContent = producto.nombre;
+        productoSelect.appendChild(option);
+    });
+}
+
+// Función para filtrar productos en el catálogo público
+function filterProducts(marca) {
+    const container = document.getElementById('catalog-products');
+    
+    // Actualizar botones activos
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        // Activar el botón correspondiente
+        if ((marca === 'todas' && btn.textContent.includes('Todas')) ||
+            (marca !== 'todas' && btn.textContent.includes(marca))) {
+            btn.classList.add('active');
+        }
+    });
+    
+    let productosHTML = '';
+    
+    if (marca === 'todas') {
+        // Mostrar todos los productos
+        Object.keys(catalogoProductos).forEach(marcaNombre => {
+            catalogoProductos[marcaNombre].forEach(producto => {
+                productosHTML += `
+                    <div class="product-card">
+                        <div class="product-header">
+                            <h4>${producto.nombre}</h4>
+                            <span class="product-brand">${marcaNombre}</span>
+                        </div>
+                        <p class="product-description">${producto.descripcion}</p>
+                    </div>
+                `;
+            });
+        });
+    } else {
+        // Mostrar productos de la marca seleccionada
+        const productos = catalogoProductos[marca] || [];
+        productos.forEach(producto => {
+            productosHTML += `
+                <div class="product-card">
+                    <div class="product-header">
+                        <h4>${producto.nombre}</h4>
+                        <span class="product-brand">${marca}</span>
+                    </div>
+                    <p class="product-description">${producto.descripcion}</p>
+                </div>
+            `;
+        });
+    }
+    
+    if (productosHTML === '') {
+        productosHTML = '<div class="empty-state"><p>No hay productos disponibles para esta marca</p></div>';
+    }
+    
+    container.innerHTML = productosHTML;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Sweet (Open Candy) - Sinergia Comercial</title>
+    <link rel="stylesheet" href="../catalog-styles.css">
+</head>
+<body>
+    <a href="../../index.html#marcas" class="back-button">
+        ← Volver al Sitio Principal
+    </a>
+
+    <div class="catalog-header">
+        <h1>Catálogo Sweet (Open Candy)</h1>
+        <p>Explora nuestra línea completa de caramelos, chocolates y golosinas Sweet</p>
+    </div>
+
+    <div id="products-container" class="products-grid"></div>
+
+    <div id="pagination-container" class="pagination"></div>
+
+    <script src="../catalog-pagination.js"></script>
+    <script>
+        // Productos Sweet (Open Candy)
+        const productosSweet = [
+            { nombre: 'Tribala Frambuesa', descripcion: 'Caramelos blandos' },
+            { nombre: 'Tribala Frambuesa 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+            { nombre: 'Tribala 2 Frutas 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+            { nombre: 'Tribala Uva 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+            { nombre: 'Masticable Frutomila Relleno 500g', descripcion: 'Caramelos blandos - 100 unidades' },
+            { nombre: 'Masticable Comefuego Surtido', descripcion: 'Caramelos - 50 unidades' },
+            { nombre: 'Drink Candy', descripcion: 'Caramelos líquidos' },
+            { nombre: 'Chupetín Blong Relleno Chicle Ácido 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+            { nombre: 'Chupetín Blong Relleno Chicle Blueberry 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+            { nombre: 'Chupetín Blong Relleno Chicle Cereza 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+            { nombre: 'Chupetín Blong Relleno Chicle Frutilla 28g', descripcion: 'Chupetines con chicle - 24 unidades' },
+            { nombre: 'Chupetín Masticable Fierita Lengua Azul 12g', descripcion: 'Chupetines masticables - 50 unidades' },
+            { nombre: 'Chupetín Masticable Fierita Super Tatoo Menta 12g', descripcion: 'Chupetines masticables - 50 unidades' },
+            { nombre: 'Chupetín Masticable Cremosito 12g', descripcion: 'Sabor frutilla y crema - 50 unidades' },
+            { nombre: 'Chupetín Masticable Fierita Nitro 12g', descripcion: 'Chupetines masticables - 50 unidades' },
+            { nombre: 'Chupetín Open Candy Emo 5g', descripcion: 'Chupetines varios - 80 unidades' },
+            { nombre: 'Chupetín Open Candy Patita 4g', descripcion: 'Chupetines varios - 100 unidades' },
+            { nombre: 'Bel Nuevo Estuche Surtido', descripcion: 'Chocolates rellenos - 20 unidades' },
+            { nombre: 'Bocadito Bel Yogur/Leche/Frutilla/Chocolate', descripcion: 'Bombones y bocaditos - 50 unidades' },
+            { nombre: 'Barrita Bel Leche Condensada 13g', descripcion: 'Bombones - 36 unidades' },
+            { nombre: 'Barrita Bel Moranguete Frutilla 13g', descripcion: 'Bombones - 36 unidades' },
+            { nombre: 'Barrita Bel Yogurte 13g', descripcion: 'Bombones - 36 unidades' },
+            { nombre: 'Moneda Chocolate Bel 370g', descripcion: 'Monedas de chocolate - 100 unidades' },
+            { nombre: 'Trento Avellana 32g', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Trento Chocolate Blanco', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Trento Chocolate', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Trento Dark Blanco 32g', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Trento Momentos 192g', descripcion: 'Chocolates rellenos surtidos' },
+            { nombre: 'Trento Crema 32g', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Trento Massimo Chocolate 30g', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Trento Massimo Chocolate Blanco 30g', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Trento Massimo Crema Maní 30g', descripcion: 'Chocolates rellenos - 16 unidades' },
+            { nombre: 'Chicle Fierita Open Candy Menta 3g', descripcion: 'Chicles globo - 100 unidades' },
+            { nombre: 'Chicle Fierita Open Candy Tutti 3g', descripcion: 'Chicles globo - 100 unidades' },
+            { nombre: 'Chicle Fierita Open Candy Frutilla 3g', descripcion: 'Chicles globo - 100 unidades' },
+            { nombre: 'Chicle Fierita Open Candy Banana 3g', descripcion: 'Chicles globo - 100 unidades' },
+            { nombre: 'Chicle Fierita Open Candy Uva 3g', descripcion: 'Chicles globo - 100 unidades' },
+            { nombre: 'Chicle Fierita Recargado Menta', descripcion: 'Chicles confitados - 50 unidades' },
+            { nombre: 'Chicle Fierita Recargado Tutti Fruti', descripcion: 'Chicles confitados - 50 unidades' },
+            { nombre: 'Chicle Fierita Recargado Uva', descripcion: 'Chicles confitados - 50 unidades' },
+            { nombre: 'Chicle Fierita Recargado Frutilla', descripcion: 'Chicles confitados - 50 unidades' },
+            { nombre: 'Chicle Fierita Recargado Banana', descripcion: 'Chicles confitados - 50 unidades' },
+            { nombre: 'Goma Fierita Button 500g', descripcion: 'Gomitas' },
+            { nombre: 'Goma Fierita Clásica 500g', descripcion: 'Gomitas' },
+            { nombre: 'Goma Fierita Corazón 500g', descripcion: 'Gomitas' },
+            { nombre: 'Goma Fierita Gajos 500g', descripcion: 'Gomitas' },
+            { nombre: 'Goma Fierita Yogurt 500g', descripcion: 'Gomitas' },
+            { nombre: 'Aros de Fresa Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Bananas Fini 250g', descripcion: 'Gomitas' },
+            { nombre: 'Besos Fini 250g', descripcion: 'Gomitas' },
+            { nombre: 'Besos Fresa Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Dentadura Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Gusanos Fini 250g', descripcion: 'Gomitas' },
+            { nombre: 'Lombrices Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Lombrices Fini Ácidas 500g', descripcion: 'Gomitas' },
+            { nombre: 'Marshmallow Alborada Fini 250g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallow Alborada Fini 500g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallows Corazón Fini 250g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallows Corazón Fini 500g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallows Flor Fini 250g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallows Flor Fini 500g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallows Fresas Fini 500g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallows Twist Fini 250g', descripcion: 'Marshmallows' },
+            { nombre: 'Marshmallows Twist Fini 500g', descripcion: 'Marshmallows' },
+            { nombre: 'Mini Besos Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Mini Minhoca Cítrica Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Mini Moras Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Mini Osos Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Mini Plátanos Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Moras Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Osos Fini 250g', descripcion: 'Gomitas' },
+            { nombre: 'Osos Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Plátanos Fini 500g', descripcion: 'Gomitas' },
+            { nombre: 'Tubes Fini Fresa 240g', descripcion: 'Regaliz' },
+            { nombre: 'Tubes Fini Fresa Cítrico 240g', descripcion: 'Regaliz' },
+            { nombre: 'Tubes Fini Twister 240g', descripcion: 'Regaliz' },
+            { nombre: 'Tubes Fini Twister Cítrico 240g', descripcion: 'Regaliz' },
+            { nombre: 'Estrellitas Frutales', descripcion: 'Pastillas - 100 unidades' }
+        ];
+
+        // Inicializar catálogo con 12 productos por página
+        catalogo = new CatalogoPaginado(productosSweet, 12);
+        catalogo.renderizarProductos(1);
+    </script>
+</body>
+</html>

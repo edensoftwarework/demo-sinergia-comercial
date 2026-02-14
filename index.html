@@ -20,6 +20,7 @@
                         <li><a href="#inicio">Inicio</a></li>
                         <li><a href="#servicios">Servicios</a></li>
                         <li><a href="#marcas">Marcas</a></li>
+                        <li><a href="#catalogo">Catálogo</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                     <button id="btn-portal" class="btn-portal" onclick="goToPortal()" style="display: none;">Mi Portal</button>
@@ -148,24 +149,17 @@
                         </div>
                         <p class="brand-description">Productos alimenticios de calidad premium</p>
                         <div class="brand-badge">Golosinas</div>
+                        <a href="catalogos/benevia/index.html" class="brand-catalog-link">📖 Ver Catálogo</a>
                     </div>
                     
                     <div class="brand-card">
                         <div class="brand-header">
-                            <div class="brand-icon">🍫</div>
-                            <h3>Justo Rodero</h3>
-                        </div>
-                        <p class="brand-description">Tradicional calidad en golosinas y librería</p>
-                        <div class="brand-badge">Golosinas & Librería</div>
-                    </div>
-                    
-                    <div class="brand-card">
-                        <div class="brand-header">
-                            <div class="brand-icon">☕</div>
+                            <div class="brand-icon">🍝</div>
                             <h3>Verizzia</h3>
                         </div>
-                        <p class="brand-description">Yerba mate y productos regionales</p>
-                        <div class="brand-badge">Infusiones</div>
+                        <p class="brand-description">Pastas, harinas y legumbres premium</p>
+                        <div class="brand-badge">Alimentos</div>
+                        <a href="catalogos/verizzia/index.html" class="brand-catalog-link">📖 Ver Catálogo</a>
                     </div>
                     
                     <div class="brand-card">
@@ -175,6 +169,7 @@
                         </div>
                         <p class="brand-description">Líder en golosinas y snacks</p>
                         <div class="brand-badge">Golosinas</div>
+                        <a href="catalogos/fantoche/index.html" class="brand-catalog-link">📖 Ver Catálogo</a>
                     </div>
                     
                     <div class="brand-card">
@@ -184,6 +179,7 @@
                         </div>
                         <p class="brand-description">Open Candy - Dulces de calidad</p>
                         <div class="brand-badge">Golosinas</div>
+                        <a href="catalogos/sweet/index.html" class="brand-catalog-link">📖 Ver Catálogo</a>
                     </div>
                     
                     <div class="brand-card">
@@ -193,15 +189,17 @@
                         </div>
                         <p class="brand-description">Productos alimenticios reconocidos</p>
                         <div class="brand-badge">Alimentos</div>
+                        <a href="catalogos/lipo/index.html" class="brand-catalog-link">📖 Ver Catálogo</a>
                     </div>
                     
                     <div class="brand-card">
                         <div class="brand-header">
                             <div class="brand-icon">🌾</div>
-                            <h3>Cerealco</h3>
+                            <h3>Cerealko</h3>
                         </div>
                         <p class="brand-description">Cereales y productos saludables</p>
                         <div class="brand-badge">Cereales</div>
+                        <a href="catalogos/cerealko/index.html" class="brand-catalog-link">📖 Ver Catálogo</a>
                     </div>
                 </div>
             </div>
@@ -210,8 +208,7 @@
         <div class="section-divider">
             <div class="container">
                 <div class="divider-content">
-                    <span class="divider-line"></span>
-                    <h2 class="divider-title">Contacto</h2>
+                    <span class="divider-line"></span>                    <h2 class="divider-title">Contacto</h2>
                     <span class="divider-line"></span>
                 </div>
             </div>
@@ -290,6 +287,7 @@
     </div>
 
     <!-- Modal de Registro -->
+    <!-- Modal de Registro -->
     <div id="register-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeRegisterModal()">&times;</span>
@@ -321,6 +319,53 @@
                 </div>
                 <button type="submit" class="btn-primary">Registrarse</button>
                 <p class="form-footer">¿Ya tienes cuenta? <a href="#" onclick="showLoginModal()">Inicia sesión</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Autenticación para Editar Factura -->
+    <div id="auth-edit-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeAuthEditModal()">&times;</span>
+            <h2>Autenticación Requerida</h2>
+            <p>Para editar una factura, por favor confirma tus credenciales de administrador:</p>
+            <form id="auth-edit-form" onsubmit="handleAuthEdit(event)">
+                <div class="form-group">
+                    <label for="auth-username">Usuario</label>
+                    <input type="text" id="auth-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="auth-password">Contraseña</label>
+                    <input type="password" id="auth-password" required>
+                </div>
+                <input type="hidden" id="edit-venc-id">
+                <button type="submit" class="btn-primary">Verificar y Editar</button>
+                <button type="button" class="btn-secondary" onclick="closeAuthEditModal()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Edición de Factura -->
+    <div id="edit-factura-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditFacturaModal()">&times;</span>
+            <h2>Editar Factura</h2>
+            <form id="edit-factura-form" onsubmit="handleEditFactura(event)">
+                <div class="form-group">
+                    <label for="edit-factura-numero">Número de Factura</label>
+                    <input type="text" id="edit-factura-numero" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-factura-monto">Monto</label>
+                    <input type="number" id="edit-factura-monto" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-factura-fecha">Fecha de Vencimiento</label>
+                    <input type="date" id="edit-factura-fecha" required>
+                </div>
+                <input type="hidden" id="edit-factura-id">
+                <button type="submit" class="btn-primary">Guardar Cambios</button>
+                <button type="button" class="btn-secondary" onclick="closeEditFacturaModal()">Cancelar</button>
             </form>
         </div>
     </div>
@@ -441,24 +486,39 @@
                 <form id="pedido-form" onsubmit="handleNuevoPedido(event)">
                     <div class="form-group">
                         <label for="pedido-marca">Seleccionar Marca</label>
-                        <select id="pedido-marca" required>
+                        <select id="pedido-marca" required onchange="loadProductsByMarca()">
                             <option value="">-- Seleccione una marca --</option>
                             <option value="Benevia">Benevia</option>
-                            <option value="Justo Rodero">Justo Rodero</option>
                             <option value="Verizzia">Verizzia</option>
                             <option value="Fantoche">Fantoche</option>
                             <option value="Sweet (Open Candy)">Sweet (Open Candy)</option>
                             <option value="Lipo">Lipo</option>
-                            <option value="Cerealco">Cerealco</option>
+                            <option value="Cerealko">Cerealko</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="pedido-producto">Producto</label>
-                        <input type="text" id="pedido-producto" required>
+                        <select id="pedido-producto" required disabled>
+                            <option value="">-- Primero seleccione una marca --</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="pedido-cantidad">Cantidad</label>
-                        <input type="number" id="pedido-cantidad" min="1" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pedido-cantidad">Cantidad</label>
+                            <input type="number" id="pedido-cantidad" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pedido-unidad">Unidad</label>
+                            <select id="pedido-unidad" required>
+                                <option value="unidades">Unidades</option>
+                                <option value="cajas">Cajas</option>
+                                <option value="paquetes">Paquetes</option>
+                                <option value="bolsas">Bolsas</option>
+                                <option value="displays">Displays</option>
+                                <option value="kg">Kilogramos</option>
+                                <option value="gramos">Gramos</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="pedido-observaciones">Observaciones / Descuentos Especiales</label>

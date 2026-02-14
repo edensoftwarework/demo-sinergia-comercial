@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Lipo - Sinergia Comercial</title>
+    <link rel="stylesheet" href="../catalog-styles.css">
+</head>
+<body>
+    <a href="../../index.html#marcas" class="back-button">
+        ← Volver al Sitio Principal
+    </a>
+
+    <div class="catalog-header">
+        <h1>Catálogo Lipo</h1>
+        <p>Explora nuestra línea completa de caramelos sin TACC Lipo</p>
+    </div>
+
+    <div id="products-container" class="products-grid"></div>
+
+    <div id="pagination-container" class="pagination"></div>
+
+    <script src="../catalog-pagination.js"></script>
+    <script>
+        // Productos Lipo
+        const productosLipo = [
+            { nombre: 'Caramelos de Miel Lipo (Rellenos) 800g', descripcion: 'Caramelos de miel rellenos sin TACC' },
+            { nombre: 'Caramelos Lipo Dor (Menta con Chocolate) 907g', descripcion: 'Caramelos de menta con chocolate' },
+            { nombre: 'Caramelos Gajitos Ácidos de Lipo 484g', descripcion: 'Caramelos ácidos sin TACC' },
+            { nombre: 'Chupetines Wamis Mágico de Lipo', descripcion: 'Chupetines sin TACC - Bolsa x 50 unidades' },
+            { nombre: 'Chupetines Lipo Wamis Sabor Dulce de Leche', descripcion: 'Chupetines sin TACC - Bolsa x 50 unidades' },
+            { nombre: 'Caramelos de Menta de Lipo 907g', descripcion: 'Caramelos de menta sin TACC' },
+            { nombre: 'Caramelos de Cereza Azucarados de Lipo 907g', descripcion: 'Caramelos de cereza sin TACC' },
+            { nombre: 'Caramelos Ce Leche "Dulce de Leche" 907g', descripcion: 'Caramelos sin TACC de Lipo' },
+            { nombre: 'Chupetines Frutales Wamis', descripcion: 'Chupetines sin TACC - Bolsa x 50 unidades' },
+            { nombre: 'Caramelo Praliné de Lipo 907g', descripcion: 'Caramelos Praliné' },
+            { nombre: 'Caramelos Superácidos de Lipo 907g', descripcion: 'Caramelos superácidos sin TACC' },
+            { nombre: 'Caramelos Candy 10 de Lipo 810g', descripcion: 'Caramelos símil Media Hora sin TACC' },
+            { nombre: 'Caramelos Viena Rellenos de Lipo 907g', descripcion: 'Caramelos rellenos sin TACC' }
+        ];
+
+        // Inicializar catálogo con 12 productos por página
+        catalogo = new CatalogoPaginado(productosLipo, 12);
+        catalogo.renderizarProductos(1);
+    </script>
+</body>
+</html>

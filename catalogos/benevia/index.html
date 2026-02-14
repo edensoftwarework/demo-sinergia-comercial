@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Benevia - Sinergia Comercial</title>
+    <link rel="stylesheet" href="../catalog-styles.css">
+</head>
+<body>
+    <a href="../../index.html#marcas" class="back-button">
+        ← Volver al Sitio Principal
+    </a>
+
+    <div class="catalog-header">
+        <h1>Catálogo Benevia</h1>
+        <p>Explora nuestra línea completa de caramelos y chocolates Benevia</p>
+    </div>
+
+    <div id="products-container" class="products-grid"></div>
+
+    <div id="pagination-container" class="pagination"></div>
+
+    <script src="../catalog-pagination.js"></script>
+    <script>
+        // Productos Benevia
+        const productosBenevia = [
+            { nombre: 'Push Pop', descripcion: 'Caramelo con palo' },
+            { nombre: 'Push Pop Duo', descripcion: 'Caramelo doble sabor' },
+            { nombre: 'Ring Pop', descripcion: 'Caramelo en anillo' },
+            { nombre: 'Mentos', descripcion: 'Caramelos masticables' },
+            { nombre: 'FunDipperz', descripcion: 'Caramelo para mojar' },
+            { nombre: 'Spring Pop', descripcion: 'Caramelo con resorte' },
+            { nombre: 'GODipperz', descripcion: 'Caramelo líquido' },
+            { nombre: 'One Bite', descripcion: 'Chocolate de un bocado' },
+            { nombre: 'Barras de Chocolate', descripcion: 'Chocolate en barra' }
+        ];
+
+        // Inicializar catálogo con 12 productos por página
+        catalogo = new CatalogoPaginado(productosBenevia, 12);
+        catalogo.renderizarProductos(1);
+    </script>
+</body>
+</html>

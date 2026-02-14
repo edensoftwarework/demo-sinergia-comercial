@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Cerealko - Sinergia Comercial</title>
+    <link rel="stylesheet" href="../catalog-styles.css">
+</head>
+<body>
+    <a href="../../index.html#marcas" class="back-button">
+        ← Volver al Sitio Principal
+    </a>
+
+    <div class="catalog-header">
+        <h1>Catálogo Cerealko</h1>
+        <p>Explora nuestra línea completa de productos saludables Cerealko</p>
+    </div>
+
+    <div id="products-container" class="products-grid"></div>
+
+    <div id="pagination-container" class="pagination"></div>
+
+    <script src="../catalog-pagination.js"></script>
+    <script>
+        // Productos Cerealko
+        const productosCerealko = [
+            { nombre: 'Arrocitas Galletas de Arroz Cuadradas', descripcion: 'Galletas de Arroz Integral - Reemplazá el pan' },
+            { nombre: 'MiniArrocitas Snacks de Arroz', descripcion: 'Snacks saludables ideal para comer a cualquier hora' },
+            { nombre: 'Nachos Macritas Snacks de Maíz', descripcion: 'Tortillas a base de cereales integrales horneadas y fritas' },
+            { nombre: 'Arrocitas Tostaditas de Arroz Integral', descripcion: 'Nuevos deliciosos snack de arroz integral libres de grasas trans' },
+            { nombre: 'Arrocitas Superbarra de Arroz', descripcion: 'Golosina saludable mucho más grande y con más sabor' },
+            { nombre: 'MiniArrocitas Alfajorcitos de Arroz', descripcion: 'Golosina saludable sin TACC con tan solo 58 kCal' },
+            { nombre: 'Macrobiótica Galletas Discos de Arroz', descripcion: 'Tradicional línea de Galletas de Arroz Integral' }
+        ];
+
+        // Inicializar catálogo con 12 productos por página
+        catalogo = new CatalogoPaginado(productosCerealko, 12);
+        catalogo.renderizarProductos(1);
+    </script>
+</body>
+</html>
