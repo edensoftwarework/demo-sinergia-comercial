@@ -335,9 +335,11 @@ function initializeDemoData() {
                 clienteId: 2,
                 clienteNombre: 'Juan Pérez',
                 marca: 'Fantoche',
-                producto: 'Alfajor Triple Blanco 85g',
-                cantidad: 50,
-                unidad: 'cajas',
+                productos: [
+                    { producto: 'Alfajor Triple Blanco 85g', cantidad: 50, unidad: 'cajas' },
+                    { producto: 'Dulce de Leche 450g', cantidad: 30, unidad: 'unidades' },
+                    { producto: 'Bizcochitos 200g', cantidad: 25, unidad: 'paquetes' }
+                ],
                 observaciones: 'Descuento 5% por volumen',
                 fecha: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'Pagado'
@@ -361,9 +363,10 @@ function initializeDemoData() {
                 clienteId: 3,
                 clienteNombre: 'María González',
                 marca: 'Cerealko',
-                producto: 'Arrocitas Galletas de Arroz Cuadradas',
-                cantidad: 75,
-                unidad: 'cajas',
+                productos: [
+                    { producto: 'Arrocitas Galletas de Arroz Cuadradas', cantidad: 75, unidad: 'cajas' },
+                    { producto: 'Galletitas de Arroz con Chocolate', cantidad: 40, unidad: 'paquetes' }
+                ],
                 observaciones: 'Entrega urgente',
                 fecha: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'Facturado'
@@ -387,9 +390,11 @@ function initializeDemoData() {
                 clienteId: 4,
                 clienteNombre: 'Carlos Rodríguez',
                 marca: 'Fantoche',
-                producto: 'Pan Dulce Con Frutas 500g',
-                cantidad: 30,
-                unidad: 'cajas',
+                productos: [
+                    { producto: 'Pan Dulce Con Frutas 500g', cantidad: 30, unidad: 'cajas' },
+                    { producto: 'Pan Dulce Sin Frutas 500g', cantidad: 20, unidad: 'cajas' },
+                    { producto: 'Chocolatada Fantoche 200ml', cantidad: 50, unidad: 'unidades' }
+                ],
                 observaciones: 'Para fin de año',
                 fecha: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'Pagado'
@@ -413,9 +418,10 @@ function initializeDemoData() {
                 clienteId: 9,
                 clienteNombre: 'Sofía Ramírez',
                 marca: 'Lipo',
-                producto: 'Caramelos de Miel Lipo (Rellenos) 800g',
-                cantidad: 80,
-                unidad: 'bolsas',
+                productos: [
+                    { producto: 'Caramelos de Miel Lipo (Rellenos) 800g', cantidad: 80, unidad: 'bolsas' },
+                    { producto: 'Caramelos de Miel Lipo (Clásicos) 800g', cantidad: 60, unidad: 'bolsas' }
+                ],
                 observaciones: '',
                 fecha: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'Pagado'
@@ -439,9 +445,11 @@ function initializeDemoData() {
                 clienteId: 11,
                 clienteNombre: 'Patricia Díaz',
                 marca: 'Sweet (Open Candy)',
-                producto: 'Trento Chocolate 32g',
-                cantidad: 60,
-                unidad: 'displays',
+                productos: [
+                    { producto: 'Trento Chocolate 32g', cantidad: 60, unidad: 'displays' },
+                    { producto: 'Tribala Frutilla 500g', cantidad: 35, unidad: 'unidades' },
+                    { producto: 'Menthoplus Hierbabuena 32g', cantidad: 45, unidad: 'paquetes' }
+                ],
                 observaciones: '',
                 fecha: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'Facturado'
@@ -2194,7 +2202,7 @@ function editarPedidoCliente(pedidoId) {
             
             const eliminarBtn = productos.length > 1 
                 ? `<button type="button" onclick="eliminarProductoEdicion(this)" style="position: absolute; top: 0.5rem; right: 0.5rem; background: #dc3545; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1.2rem; line-height: 1;" title="Eliminar producto">&times;</button>` 
-                : '';
+                : `<button type="button" onclick="eliminarProductoEdicion(this)" style="position: absolute; top: 0.5rem; right: 0.5rem; background: #dc3545; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1.2rem; line-height: 1; display: none;" title="Eliminar producto">&times;</button>`;
             
             productoDiv.innerHTML = `
                 ${eliminarBtn}
@@ -2234,13 +2242,33 @@ function editarPedidoCliente(pedidoId) {
 function eliminarProductoEdicion(boton) {
     const container = boton.closest('div[style*="border: 1px solid"]');
     if (container) {
-        container.remove();
-        // Renumerar productos restantes
-        const productos = document.querySelectorAll('#edit-productos-container-cliente > div, #edit-productos-container-admin > div');
-        productos.forEach((div, index) => {
-            const h4 = div.querySelector('h4');
-            if (h4) h4.textContent = `Producto ${index + 1}`;
-        });
+        // Verificar si hay más de un producto antes de eliminar
+        const productosContainer = container.parentElement;
+        const productosActuales = productosContainer.querySelectorAll('div[style*="border: 1px solid"]');
+        
+        if (productosActuales.length > 1) {
+            container.remove();
+            
+            // Renumerar productos restantes y actualizar botones de eliminar
+            const productosRestantes = productosContainer.querySelectorAll('div[style*="border: 1px solid"]');
+            productosRestantes.forEach((div, index) => {
+                const h4 = div.querySelector('h4');
+                if (h4) h4.textContent = `Producto ${index + 1}`;
+                
+                // Actualizar visibilidad de botones de eliminar
+                const eliminarBtn = div.querySelector('button[title="Eliminar producto"]');
+                if (productosRestantes.length === 1) {
+                    // Si solo queda un producto, ocultar el botón de eliminar
+                    if (eliminarBtn) eliminarBtn.style.display = 'none';
+                } else {
+                    // Si hay múltiples productos, mostrar el botón
+                    if (eliminarBtn) eliminarBtn.style.display = 'block';
+                }
+            });
+        } else {
+            // No permitir eliminar si es el último producto
+            alert('No se puede eliminar el último producto del pedido. Cada pedido debe tener al menos un producto.');
+        }
     }
 }
 
@@ -2330,7 +2358,7 @@ function editarPedidoAdmin(pedidoId) {
             
             const eliminarBtn = productos.length > 1 
                 ? `<button type="button" onclick="eliminarProductoEdicion(this)" style="position: absolute; top: 0.5rem; right: 0.5rem; background: #dc3545; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1.2rem; line-height: 1;" title="Eliminar producto">&times;</button>` 
-                : '';
+                : `<button type="button" onclick="eliminarProductoEdicion(this)" style="position: absolute; top: 0.5rem; right: 0.5rem; background: #dc3545; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 1.2rem; line-height: 1; display: none;" title="Eliminar producto">&times;</button>`;
             
             productoDiv.innerHTML = `
                 ${eliminarBtn}
