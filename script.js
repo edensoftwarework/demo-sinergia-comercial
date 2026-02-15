@@ -635,6 +635,7 @@ function handleRegister(event) {
 // Logout
 function logout() {
     currentUser = null;
+    document.body.style.paddingTop = '100px'; // Restaurar padding del navbar fijo
     document.getElementById('admin-dashboard').style.display = 'none';
     document.getElementById('client-portal').style.display = 'none';
     document.getElementById('landing-page').style.display = 'block';
@@ -644,6 +645,7 @@ function logout() {
 
 // Volver al sitio (sin cerrar sesión)
 function backToSite() {
+    document.body.style.paddingTop = '100px'; // Restaurar padding del navbar fijo
     document.getElementById('admin-dashboard').style.display = 'none';
     document.getElementById('client-portal').style.display = 'none';
     document.getElementById('landing-page').style.display = 'block';
@@ -671,6 +673,7 @@ function goToPortal() {
 
 // Dashboard Administrador
 function showAdminDashboard() {
+    document.body.style.paddingTop = '0'; // Remover padding del navbar fijo
     document.getElementById('admin-dashboard').style.display = 'block';
     showAdminSection('alertas');
 }
@@ -1661,6 +1664,7 @@ function cambiarEstadoPedido(pedidoId, nuevoEstado) {
 
 // Portal Cliente
 function showClientPortal() {
+    document.body.style.paddingTop = '0'; // Remover padding del navbar fijo
     document.getElementById('client-portal').style.display = 'block';
     showClientSection('nuevo-pedido');
 }
@@ -1915,19 +1919,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manejar clics en enlaces de navegación para ajustar scroll con navbar fija
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
+            const href = this.getAttribute('href');
             
-            if (targetSection) {
-                // Calcular la posición correcta: navbar height + espacio para mostrar separador
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                const separatorOffset = 120; // Espacio adicional aumentado para mostrar más de la sección
-                const targetPosition = targetSection.offsetTop - navbarHeight - separatorOffset;
+            // Solo interceptar enlaces internos que empiecen con #
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
                 
-                // Scroll suave con animación personalizada más profesional
-                smoothScrollTo(targetPosition, 1200); // 1200ms de duración para scroll más suave
+                if (targetSection) {
+                    // Calcular la posición correcta: navbar height + espacio para mostrar separador
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    const separatorOffset = 120; // Espacio adicional aumentado para mostrar más de la sección
+                    const targetPosition = targetSection.offsetTop - navbarHeight - separatorOffset;
+                    
+                    // Scroll suave con animación personalizada más profesional
+                    smoothScrollTo(targetPosition, 1200); // 1200ms de duración para scroll más suave
+                }
             }
+            // Los enlaces externos (como los del dropdown) funcionarán normalmente
         });
     });
     
