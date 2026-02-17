@@ -466,6 +466,20 @@ function initializeDemoData() {
                 observaciones: 'Reposición de stock',
                 fecha: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'Pendiente'
+            },
+            {
+                id: 26,
+                pedidoId: 'PED-INACTIVO-001',
+                clienteId: 7,
+                clienteNombre: 'Laura Fernández',
+                marca: 'Benevia',
+                productos: [
+                    { producto: 'Push Pop', cantidad: 20, unidad: 'cajas' },
+                    { producto: 'Mentos', cantidad: 15, unidad: 'cajas' }
+                ],
+                observaciones: '',
+                fecha: new Date(Date.now() - 80 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'Facturado'
             }
         ];
 
@@ -477,6 +491,7 @@ function initializeDemoData() {
                 clienteNombre: 'Juan Pérez',
                 factura: 'FC-001-00123',
                 monto: 25000,
+                comision: 5.0,
                 fechaVencimiento: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pendiente' // Vence en 5 días
             },
@@ -485,6 +500,7 @@ function initializeDemoData() {
                 clienteId: 3,
                 clienteNombre: 'María González',
                 monto: 18500,
+                comision: 4.5,
                 factura: 'FC-001-00124',
                 fechaVencimiento: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pendiente' // Vence en 2 días
@@ -495,6 +511,7 @@ function initializeDemoData() {
                 clienteNombre: 'Carlos Rodríguez',
                 factura: 'FC-001-00125',
                 monto: 32000,
+                comision: 6.0,
                 fechaVencimiento: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pendiente' // Vence en 15 días
             },
@@ -504,6 +521,7 @@ function initializeDemoData() {
                 clienteNombre: 'Diego Morales',
                 factura: 'FC-001-00126',
                 monto: 45000,
+                comision: 5.5,
                 fechaVencimiento: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
                 fechaPago: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pagada' // Pagada hace 22 días
@@ -514,6 +532,7 @@ function initializeDemoData() {
                 clienteNombre: 'Sofía Ramírez',
                 factura: 'FC-001-00127',
                 monto: 27500,
+                comision: 4.0,
                 fechaVencimiento: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pendiente' // Vence en 8 días
             },
@@ -523,6 +542,7 @@ function initializeDemoData() {
                 clienteNombre: 'Fernando López',
                 factura: 'FC-001-00128',
                 monto: 38900,
+                comision: 5.0,
                 fechaVencimiento: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
                 fechaPago: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pagada' // Pagada hace 50 días
@@ -533,6 +553,7 @@ function initializeDemoData() {
                 clienteNombre: 'Patricia Díaz',
                 factura: 'FC-001-00129',
                 monto: 21000,
+                comision: 4.5,
                 fechaVencimiento: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pendiente' // Vence en 3 días
             },
@@ -542,8 +563,21 @@ function initializeDemoData() {
                 clienteNombre: 'Ricardo Torres',
                 factura: 'FC-001-00130',
                 monto: 52000,
+                comision: 6.5,
                 fechaVencimiento: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString(),
                 estado: 'pendiente' // Vence en 20 días
+            },
+            {
+                id: 9,
+                clienteId: 7,
+                clienteNombre: 'Laura Fernández',
+                factura: 'FC-001-00131',
+                monto: 19500,
+                comision: 5.0,
+                fechaVencimiento: new Date(Date.now() - 80 * 24 * 60 * 60 * 1000).toISOString(),
+                fechaPago: new Date(Date.now() - 78 * 24 * 60 * 60 * 1000).toISOString(),
+                estado: 'pagada', // Pagada hace 78 días
+                pedidosVinculados: ['PED-INACTIVO-001']
             }
         ];
 
@@ -716,6 +750,9 @@ function showAdminSection(section) {
         case 'vencimientos':
             loadVencimientosForm();
             loadVencimientosList();
+            break;
+        case 'estadisticas':
+            calcularEstadisticas();
             break;
     }
 }
@@ -1187,6 +1224,7 @@ function handleCargarVencimiento(event) {
         clienteNombre: cliente.nombre,
         factura: document.getElementById('venc-factura').value,
         monto: parseFloat(document.getElementById('venc-monto').value),
+        comision: parseFloat(document.getElementById('venc-comision').value),
         fechaVencimiento: fechaVencimiento.toISOString(),
         estado: 'pendiente',
         pedidosVinculados: pedidosSeleccionados.filter(p => p !== 'sin-pedido'),
@@ -1230,12 +1268,14 @@ function loadVencimientosList() {
         return;
     }
 
-    let html = '<h3>Vencimientos Registrados</h3><table><thead><tr><th>Cliente</th><th>Factura</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+    let html = '<h3>Vencimientos Registrados</h3><table><thead><tr><th>Cliente</th><th>Factura</th><th>Monto</th><th>Comisión</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
 
     vencimientos.forEach(venc => {
         const diasHasta = Math.floor((new Date(venc.fechaVencimiento) - Date.now()) / (1000 * 60 * 60 * 24));
         let estado = '';
         let accionBtn = '';
+        const comision = venc.comision || 0;
+        const montoComision = venc.monto * comision / 100;
         
         if (venc.estado === 'pagada') {
             estado = `<span class="status-badge status-aprobado">✓ Pagada</span>`;
@@ -1259,6 +1299,7 @@ function loadVencimientosList() {
                 <td>${venc.clienteNombre}</td>
                 <td>${venc.factura}</td>
                 <td>$${venc.monto.toLocaleString()}</td>
+                <td>${comision.toFixed(1)}% <span style="color: #28a745; font-size: 0.9em;">($${montoComision.toLocaleString('es-AR', {minimumFractionDigits: 2})})</span></td>
                 <td>${formatDate(venc.fechaVencimiento)}</td>
                 <td>${estado}</td>
                 <td>${accionBtn}</td>
@@ -1319,12 +1360,14 @@ function renderizarTablaVencimientos(vencimientos) {
         return;
     }
     
-    let html = '<h3>Vencimientos Registrados</h3><table><thead><tr><th>Cliente</th><th>Factura</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
+    let html = '<h3>Vencimientos Registrados</h3><table><thead><tr><th>Cliente</th><th>Factura</th><th>Monto</th><th>Comisión</th><th>Vencimiento</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>';
 
     vencimientos.forEach(venc => {
         const diasHasta = Math.floor((new Date(venc.fechaVencimiento) - Date.now()) / (1000 * 60 * 60 * 24));
         let estado = '';
         let accionBtn = '';
+        const comision = venc.comision || 0;
+        const montoComision = venc.monto * comision / 100;
         
         if (venc.estado === 'pagada') {
             estado = `<span class="status-badge status-aprobado">✓ Pagada</span>`;
@@ -1348,6 +1391,7 @@ function renderizarTablaVencimientos(vencimientos) {
                 <td>${venc.clienteNombre}</td>
                 <td>${venc.numeroFactura}</td>
                 <td>$${venc.monto.toLocaleString()}</td>
+                <td>${comision.toFixed(1)}% <span style="color: #28a745; font-size: 0.9em;">($${montoComision.toLocaleString('es-AR', {minimumFractionDigits: 2})})</span></td>
                 <td>${formatDate(venc.fechaVencimiento)}</td>
                 <td>${estado}</td>
                 <td>${accionBtn}</td>
@@ -2444,6 +2488,118 @@ function handleEditarPedidoAdmin(event) {
         loadPedidosAdmin();
         alert('Pedido actualizado exitosamente');
     }
+}
+
+// Función para calcular estadísticas
+function calcularEstadisticas() {
+    const vencimientos = JSON.parse(localStorage.getItem('sinergia_vencimientos'));
+    const container = document.getElementById('estadisticas-container');
+    
+    // Obtener filtros
+    const fechaDesde = document.getElementById('stats-fecha-desde').value;
+    const fechaHasta = document.getElementById('stats-fecha-hasta').value;
+    
+    // Filtrar vencimientos según rango de fechas
+    let vencimientosFiltrados = vencimientos;
+    
+    if (fechaDesde) {
+        vencimientosFiltrados = vencimientosFiltrados.filter(v => {
+            const fecha = v.estado === 'pagada' && v.fechaPago ? new Date(v.fechaPago) : new Date(v.fechaVencimiento);
+            return fecha >= new Date(fechaDesde);
+        });
+    }
+    
+    if (fechaHasta) {
+        vencimientosFiltrados = vencimientosFiltrados.filter(v => {
+            const fecha = v.estado === 'pagada' && v.fechaPago ? new Date(v.fechaPago) : new Date(v.fechaVencimiento);
+            return fecha <= new Date(fechaHasta + 'T23:59:59');
+        });
+    }
+    
+    // Calcular estadísticas
+    const totalFacturar = vencimientos
+        .filter(v => v.estado === 'pendiente')
+        .reduce((sum, v) => sum + v.monto, 0);
+    
+    const totalFacturado = vencimientosFiltrados
+        .filter(v => v.estado === 'pagada')
+        .reduce((sum, v) => sum + v.monto, 0);
+    
+    const totalComisionesAPagar = vencimientos
+        .filter(v => v.estado === 'pendiente')
+        .reduce((sum, v) => sum + (v.monto * (v.comision || 0) / 100), 0);
+    
+    const totalComisionesGanadas = vencimientosFiltrados
+        .filter(v => v.estado === 'pagada')
+        .reduce((sum, v) => sum + (v.monto * (v.comision || 0) / 100), 0);
+    
+    const facturasActivas = vencimientos.filter(v => v.estado === 'pendiente').length;
+    const facturasPagadas = vencimientosFiltrados.filter(v => v.estado === 'pagada').length;
+    
+    // Calcular comisión promedio
+    const comisionPromedio = vencimientos.length > 0
+        ? vencimientos.reduce((sum, v) => sum + (v.comision || 0), 0) / vencimientos.length
+        : 0;
+    
+    const periodo = fechaDesde || fechaHasta 
+        ? `<p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Período: ${fechaDesde ? formatDate(fechaDesde) : 'Inicio'} - ${fechaHasta ? formatDate(fechaHasta) : 'Hoy'}</p>`
+        : '';
+    
+    container.innerHTML = `
+        <div class="stat-card stat-primary">
+            <div class="stat-icon">💰</div>
+            <div class="stat-content">
+                <h3>Total a Facturar</h3>
+                <p class="stat-value">$${totalFacturar.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                <p class="stat-detail">${facturasActivas} facturas pendientes</p>
+            </div>
+        </div>
+        
+        <div class="stat-card stat-success">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+                <h3>Total Facturado</h3>
+                <p class="stat-value">$${totalFacturado.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                <p class="stat-detail">${facturasPagadas} facturas pagadas${periodo}</p>
+            </div>
+        </div>
+        
+        <div class="stat-card stat-warning">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-content">
+                <h3>Comisiones a Cobrar</h3>
+                <p class="stat-value">$${totalComisionesAPagar.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                <p class="stat-detail">De facturas pendientes</p>
+            </div>
+        </div>
+        
+        <div class="stat-card stat-info">
+            <div class="stat-icon">💵</div>
+            <div class="stat-content">
+                <h3>Comisiones Ganadas</h3>
+                <p class="stat-value">$${totalComisionesGanadas.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                <p class="stat-detail">De facturas cobradas${periodo}</p>
+            </div>
+        </div>
+        
+        <div class="stat-card stat-secondary">
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+                <h3>Comisión Promedio</h3>
+                <p class="stat-value">${comisionPromedio.toFixed(1)}%</p>
+                <p class="stat-detail">En todas las facturas</p>
+            </div>
+        </div>
+        
+        <div class="stat-card stat-neutral">
+            <div class="stat-icon">📈</div>
+            <div class="stat-content">
+                <h3>Volumen Total</h3>
+                <p class="stat-value">$${(totalFacturar + totalFacturado).toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                <p class="stat-detail">${facturasActivas + facturasPagadas} facturas en total</p>
+            </div>
+        </div>
+    `;
 }
 
 // Función de scroll suave profesional con easing

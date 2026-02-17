@@ -1578,3 +1578,122 @@ html {
     25% { transform: translateX(-5px); }
     75% { transform: translateX(5px); }
 }
+/* Estilos para estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-left: 4px solid #d4983d;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.stat-card h4 {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.2;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-primary {
+    border-left-color: #3498db;
+}
+
+.stat-primary .stat-value {
+    color: #3498db;
+}
+
+.stat-success {
+    border-left-color: #28a745;
+}
+
+.stat-success .stat-value {
+    color: #28a745;
+}
+
+.stat-warning {
+    border-left-color: #ffc107;
+}
+
+.stat-warning .stat-value {
+    color: #ffc107;
+}
+
+.stat-info {
+    border-left-color: #17a2b8;
+}
+
+.stat-info .stat-value {
+    color: #17a2b8;
+}
+
+.stat-secondary {
+    border-left-color: #6c757d;
+}
+
+.stat-secondary .stat-value {
+    color: #6c757d;
+}
+
+.stat-neutral {
+    border-left-color: #95a5a6;
+}
+
+.stat-neutral .stat-value {
+    color: #95a5a6;
+}
+
+.date-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.date-filters label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.date-filters input[type="date"] {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
